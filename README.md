@@ -1,2 +1,1 @@
 # linear-regression
-Linear Regression
