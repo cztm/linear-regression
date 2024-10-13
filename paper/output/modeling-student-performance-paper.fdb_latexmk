@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1728781005.16431 "/Users/emmajuansalazar/Documents/fall-mod-1/linear-regression/group-project/linear-regression/paper/modeling-student-performance-paper.tex" "output/modeling-student-performance-paper.pdf" "modeling-student-performance-paper" 1728781008.7642 0
-  "/Users/emmajuansalazar/Documents/fall-mod-1/linear-regression/group-project/linear-regression/paper/modeling-student-performance-paper.tex" 1728781001.89144 19931 6e98369b637447e385d0486d44ee0baa ""
+["pdflatex"] 1728782822.87258 "/Users/emmajuansalazar/Documents/fall-mod-1/linear-regression/group-project/linear-regression/paper/modeling-student-performance-paper.tex" "output/modeling-student-performance-paper.pdf" "modeling-student-performance-paper" 1728782839.34709 0
+  "/Users/emmajuansalazar/Documents/fall-mod-1/linear-regression/group-project/linear-regression/paper/modeling-student-performance-paper.tex" 1728782822.54162 17257 c813389fe5a931866150ed58ce74afe0 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -18,6 +18,7 @@
   "/usr/local/texlive/2024/texmf-dist/fonts/type1/bitstrea/charter/bchr8a.pfb" 1136849748 34869 539b6fed90ef630e9049bc13079bc598 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/type1/bitstrea/charter/bchri8a.pfb" 1136849748 35118 12369bddf1a14581d11fcdbf86619250 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1248133631 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
+  "/usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb" 1248133631 36281 c355509802a035cadc5f15869451dcee ""
   "/usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb" 1248133631 32762 224316ccc9ad3ca0423a14971cfa7fc1 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb" 1248133631 31099 c85edf1dd5b9e826d67c9c7293b6786c ""
   "/usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfrb3583.pfb" 1215737283 139764 d06c1bbd1aa532bd77e09f30b062ad5e ""
@@ -95,9 +96,9 @@
   "images/2-boxplots.png" 1728771676.79326 169956 ce5dc361f1ab811db157f32fb86fceaa ""
   "images/3-pairwise-plot.png" 1728771689.61775 956705 8f6a45cd9a0ef69d8c178de0358f90d2 ""
   "images/4-correlation-heatmap.png" 1728771699.69068 169447 2d1c65e05f67ef727b3aa6e7045494c2 ""
-  "modeling-student-performance-paper.tex" 1728781001.89144 19931 6e98369b637447e385d0486d44ee0baa ""
-  "output/modeling-student-performance-paper.aux" 1728781008.67388 3208 a5f1db97c926df36106792e1e90470e6 "pdflatex"
-  "output/modeling-student-performance-paper.out" 1728781008.67467 901 4b3897183cc7a9d7bef9f066f7dfac30 "pdflatex"
+  "modeling-student-performance-paper.tex" 1728782822.54162 17257 c813389fe5a931866150ed58ce74afe0 ""
+  "output/modeling-student-performance-paper.aux" 1728782837.56977 3206 a154c7f02734fb6597af278b5870a957 "pdflatex"
+  "output/modeling-student-performance-paper.out" 1728782837.59484 891 c2ffff64119743a7e12b0b9bbab75d2b "pdflatex"
   (generated)
   "output/modeling-student-performance-paper.aux"
   "output/modeling-student-performance-paper.log"

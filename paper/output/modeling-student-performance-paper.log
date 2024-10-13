@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.7.18)  12 OCT 2024 17:56
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.7.18)  12 OCT 2024 18:27
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -493,20 +493,20 @@ Underfull \hbox (badness 10000) in paragraph at lines 291--294
 <./images/1-barplots.png, id=91, 1293.633pt x 1295.43974pt>
 File: ./images/1-barplots.png Graphic file (type png)
 <use ./images/1-barplots.png>
-Package pdftex.def Info: ./images/1-barplots.png  used on input line 359.
+Package pdftex.def Info: ./images/1-barplots.png  used on input line 362.
 (pdftex.def)             Requested size: 472.71088pt x 473.35541pt.
 
 pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.360 ... category for our categorical variables.}
+l.363 ... category for our categorical variables.}
                                                    [5
 
  <./images/1-barplots.png>]
 <./images/2-boxplots.png, id=98, 1004.553pt x 1004.91435pt>
 File: ./images/2-boxplots.png Graphic file (type png)
 <use ./images/2-boxplots.png>
-Package pdftex.def Info: ./images/2-boxplots.png  used on input line 412.
+Package pdftex.def Info: ./images/2-boxplots.png  used on input line 415.
 (pdftex.def)             Requested size: 472.71088pt x 472.87715pt.
 
 
@@ -515,7 +515,7 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 <./images/3-pairwise-plot.png, id=99, 1243.40535pt x 1243.40535pt>
 File: ./images/3-pairwise-plot.png Graphic file (type png)
 <use ./images/3-pairwise-plot.png>
-Package pdftex.def Info: ./images/3-pairwise-plot.png  used on input line 419.
+Package pdftex.def Info: ./images/3-pairwise-plot.png  used on input line 422.
 (pdftex.def)             Requested size: 472.71088pt x 472.70764pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
@@ -531,21 +531,21 @@ LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 4.17pt have occurred.
 
 Package rerunfilecheck Info: File `modeling-student-performance-paper.out' has not changed.
-(rerunfilecheck)             Checksum: 4B3897183CC7A9D7BEF9F066F7DFAC30;901.
+(rerunfilecheck)             Checksum: C2FFFF64119743A7E12B0B9BBAB75D2B;891.
  ) 
 Here is how much of TeX's memory you used:
- 10418 strings out of 474116
- 166286 string characters out of 5743682
+ 10417 strings out of 474116
+ 166275 string characters out of 5743682
  1947187 words of memory out of 5000000
  32597 multiletter control sequences out of 15000+600000
  574591 words of font info for 58 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  79i,8n,93p,636b,515s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2024/texmf-dist/fonts/type1/bitstrea/charter/bchb8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/bitstrea/charter/bchr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/bitstrea/charter/bchri8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfrb3583.pfb>
-Output written on output/modeling-student-performance-paper.pdf (8 pages, 1450134 bytes).
+</usr/local/texlive/2024/texmf-dist/fonts/type1/bitstrea/charter/bchb8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/bitstrea/charter/bchr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/bitstrea/charter/bchri8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfrb3583.pfb>
+Output written on output/modeling-student-performance-paper.pdf (8 pages, 1458200 bytes).
 PDF statistics:
- 158 PDF objects out of 1000 (max. 8388607)
- 124 compressed objects within 2 object streams
- 36 named destinations out of 1000 (max. 500000)
+ 162 PDF objects out of 1000 (max. 8388607)
+ 126 compressed objects within 2 object streams
+ 35 named destinations out of 1000 (max. 500000)
  85 words of extra memory for PDF output out of 10000 (max. 10000000)
 

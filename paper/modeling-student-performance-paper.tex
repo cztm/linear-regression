@@ -311,14 +311,17 @@ Regarding our categorical variables:
     \textbf{Does school type or teacher quality significantly influence exam scores?}
 \end{itemize}
 
-
-\section{Multiple Regression Analysis}
+\newpage
+\section{Linear Regression Analysis}
 
 \subsection*{Initial Model}
-Our first approach to ascertain which predictors to include in our MLR model was to make a Simple Linear Regression model for each of our predictors. We compared metrics for each of these models, like $R^2$, and picked the highest performing size 1 models to make an initial MLR model %(Supplementary Table \ref{tab:intial-model})
 
-\subsection*{Box-Cox Transformation}
-\lipsum[1]
+Our first approach to ascertain which predictors to include in our MLR model was to make a Simple Linear Regression model for each of our predictors. We compared metrics for each of these models, like $R^2$, and picked the highest performing size 1 models to make an initial MLR model %(Supplementary Table \ref{tab:intial-model})
+	
+After looking at the $R^2_a$ of exam score regressed onto each individual predictor, we're going to naively choose the 6 predictors with the strongest $R^2_a$ values to model: attendance, hours studied, previous scores, tutoring sessions, access to resources and learning disabilities.
+
+
+
 \subsection*{Splitting the Data Into Two Models}
 \lipsum[1]
 
@@ -420,38 +423,5 @@ Our first approach to ascertain which predictors to include in our MLR model was
   \caption{Numerical variable pairwise plot: Initial assessment of linear relationships between our variables.}
   \label{3:pairwise}
 \end{figure*}
-
-\renewcommand{\tablename}{Supplementary Table}
-\setcounter{table}{1}
-
-% \begin{table*}
-%   \caption{Fitting an SLR model for each predictor.}
-%   \label{tab:intial-model}
-%   \begin{tabular}{lrrrrrrrrr}
-%   \toprule
-%   Predictor & Correlation & P-value & R-squared & Adj_R-squared & VIF & T-statistic & F-statistic & AIC & BIC \\
-%   \midrule
-%   Attendance & 0.003104 & 0.000000 & 0.336700 & 0.336596 & 1.003434 & 56.890623 & 3236.542960 & 32891.664424 & 32905.185643 \\
-%   Hours_Studied & 0.003507 & 0.000000 & 0.198118 & 0.197992 & 1.002271 & 39.689943 & 1575.291562 & 34101.790605 & 34115.311825 \\
-%   Previous_Scores & 0.019833 & 0.000000 & 0.030375 & 0.030223 & 1.003842 & 14.132771 & 199.735203 & 35313.278862 & 35326.800082 \\
-%   Tutoring_Sessions & 0.002661 & 0.000000 & 0.024595 & 0.024442 & 1.001632 & 12.679697 & 160.774705 & 35351.180193 & 35364.701412 \\
-%   Peer_Influence & 0.008092 & 0.000000 & 0.009827 & 0.009672 & 1.002203 & 7.954933 & 63.280966 & 35447.022378 & 35460.543598 \\
-%   Parental_Involvement & 0.007785 & 0.000000 & 0.008843 & 0.008688 & 1.002094 & -7.542343 & 56.886934 & 35453.358706 & 35466.879926 \\
-%   Access_to_Resources & 0.000353 & 0.000000 & 0.007830 & 0.007675 & 1.003961 & -7.093709 & 50.320703 & 35459.872237 & 35473.393457 \\
-%   Distance_from_Home & -0.005317 & 0.000000 & 0.007759 & 0.007603 & 1.002023 & 7.060830 & 49.855316 & 35460.334142 & 35473.855361 \\
-%   Learning_Disabilities & -0.005272 & 0.000000 & 0.007041 & 0.006885 & 1.002373 & -6.724033 & 45.212618 & 35464.943930 & 35478.465150 \\
-%   Extracurricular_Activities & 0.013779 & 0.000000 & 0.003977 & 0.003821 & 1.001554 & 5.045584 & 25.457916 & 35484.595934 & 35498.117154 \\
-%   Teacher_Quality & -0.010520 & 0.000002 & 0.003510 & 0.003354 & 1.001000 & -4.739229 & 22.460292 & 35487.583273 & 35501.104493 \\
-%   Internet_Access & -0.000532 & 0.000044 & 0.002614 & 0.002457 & 1.002215 & 4.087563 & 16.708173 & 35493.319577 & 35506.840797 \\
-%   Parental_Education_Level & 0.012913 & 0.001113 & 0.001666 & 0.001509 & 1.003001 & 3.261866 & 10.639768 & 35499.376896 & 35512.898116 \\
-%   Physical_Activity & -0.011554 & 0.044613 & 0.000632 & 0.000476 & 1.005148 & 2.008678 & 4.034786 & 35505.976356 & 35519.497576 \\
-%   Family_Income & 0.008112 & 0.070478 & 0.000513 & 0.000356 & 1.003256 & -1.809132 & 3.272958 & 35506.737986 & 35520.259206 \\
-%   Motivation_Level & -0.012348 & 0.156195 & 0.000315 & 0.000159 & 1.002466 & -1.418154 & 2.011161 & 35507.999656 & 35521.520876 \\
-%   Sleep_Hours & 0.010594 & 0.170317 & 0.000295 & 0.000138 & 1.002320 & -1.371340 & 1.880573 & 35508.130246 & 35521.651465 \\
-%   School_Type & -0.012893 & 0.385499 & 0.000118 & -0.000039 & 1.002547 & -0.867869 & 0.753196 & 35509.257743 & 35522.778962 \\
-%   Gender & 0.003920 & 0.693696 & 0.000024 & -0.000133 & 1.001838 & -0.393863 & 0.155128 & 35509.855956 & 35523.377176 \\
-%   \bottomrule
-%   \end{tabular}
-%   \end{table*}
 
 \end{document}
