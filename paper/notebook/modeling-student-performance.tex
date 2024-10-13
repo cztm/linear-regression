@@ -1,0 +1,2784 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{modeling-student-performance}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \section{Modeling Student Performance: Using Multiple Linear Regression
+to Predict Exam
+Scores}\label{modeling-student-performance-using-multiple-linear-regression-to-predict-exam-scores}
+
+    Our selected dataset is
+\href{https://www.kaggle.com/datasets/lainguyn123/student-performance-factors}{Student
+Performance Factors}.
+
+All of the scripts and data for this project can be found on our
+\href{https://github.com/cztm/linear-regression}{Git Repository}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{252}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{seaborn} \PY{k}{as} \PY{n+nn}{sns}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{from} \PY{n+nn}{plotnine} \PY{k+kn}{import} \PY{o}{*}
+\PY{k+kn}{from} \PY{n+nn}{matplotlib} \PY{k+kn}{import} \PY{n}{gridspec}
+
+\PY{k+kn}{from} \PY{n+nn}{formatting}\PY{n+nn}{.}\PY{n+nn}{plot\PYZus{}settings} \PY{k+kn}{import} \PY{n}{colors}
+
+\PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+
+\PY{k+kn}{import} \PY{n+nn}{itertools}
+\PY{k+kn}{from} \PY{n+nn}{itertools} \PY{k+kn}{import} \PY{n}{combinations}
+
+\PY{k+kn}{import} \PY{n+nn}{statsmodels}\PY{n+nn}{.}\PY{n+nn}{api} \PY{k}{as} \PY{n+nn}{sm}
+\PY{k+kn}{import} \PY{n+nn}{statsmodels}\PY{n+nn}{.}\PY{n+nn}{formula}\PY{n+nn}{.}\PY{n+nn}{api} \PY{k}{as} \PY{n+nn}{smf}
+\PY{k+kn}{from} \PY{n+nn}{scipy} \PY{k+kn}{import} \PY{n}{stats}
+
+\PY{k+kn}{from} \PY{n+nn}{statsmodels}\PY{n+nn}{.}\PY{n+nn}{stats}\PY{n+nn}{.}\PY{n+nn}{anova} \PY{k+kn}{import} \PY{n}{anova\PYZus{}lm}
+\PY{k+kn}{from} \PY{n+nn}{statsmodels}\PY{n+nn}{.}\PY{n+nn}{stats}\PY{n+nn}{.}\PY{n+nn}{outliers\PYZus{}influence} \PY{k+kn}{import} \PY{n}{variance\PYZus{}inflation\PYZus{}factor}
+\PY{k+kn}{from} \PY{n+nn}{statsmodels}\PY{n+nn}{.}\PY{n+nn}{graphics}\PY{n+nn}{.}\PY{n+nn}{regressionplots} \PY{k+kn}{import} \PY{n}{influence\PYZus{}plot}
+\PY{k+kn}{from} \PY{n+nn}{statsmodels}\PY{n+nn}{.}\PY{n+nn}{stats}\PY{n+nn}{.}\PY{n+nn}{outliers\PYZus{}influence} \PY{k+kn}{import} \PY{n}{OLSInfluence}
+
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{linear\PYZus{}model} \PY{k+kn}{import} \PY{n}{Lasso}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{pipeline} \PY{k+kn}{import} \PY{n}{Pipeline}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{compose} \PY{k+kn}{import} \PY{n}{ColumnTransformer}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{preprocessing} \PY{k+kn}{import} \PY{n}{StandardScaler}\PY{p}{,} \PY{n}{OneHotEncoder}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{preprocessing} \PY{k+kn}{import} \PY{n}{LabelEncoder}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection} \PY{k+kn}{import} \PY{n}{train\PYZus{}test\PYZus{}split}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k+kn}{import} \PY{n}{mean\PYZus{}squared\PYZus{}error}\PY{p}{,} \PY{n}{mean\PYZus{}absolute\PYZus{}error}\PY{p}{,} \PY{n}{r2\PYZus{}score}
+
+\PY{o}{\PYZpc{}}\PY{k}{config} InlineBackend.figure\PYZus{}format = \PYZsq{}retina\PYZsq{}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \subsection{Student Performance Factors Dataset
+Overview}\label{student-performance-factors-dataset-overview}
+
+The ``Student Performance Factors'' dataset contains 19 variables that
+may influence students' exam scores. It is designed to help researchers
+analyze the potential impact of these factors on student performance.
+The dataset includes information such as study time
+(\texttt{Hours\_Studied}), attendance (\texttt{Attendance}), parental
+involvement (\texttt{Parental\_Involvement}), access to resources
+(\texttt{Access\_to\_Resources}), and participation in extracurricular
+activities (\texttt{Extracurricular\_Activities}). Additionally, it
+covers socioeconomic and background data such as family income
+(\texttt{Family\_Income}), motivation level
+(\texttt{Motivation\_Level}), tutoring sessions
+(\texttt{Tutoring\_Sessions}), school type (\texttt{School\_Type}),
+sleep hours (\texttt{Sleep\_Hours}), and parental education level
+(\texttt{Parental\_Education\_Level}).
+
+\subsubsection{Purpose and Applications}\label{purpose-and-applications}
+
+Researchers can use this dataset to build regression models for
+predicting exam scores (\texttt{Exam\_Score}) and to identify
+significant factors affecting student academic performance. The
+dataset's potential applications include:
+
+\begin{itemize}
+\tightlist
+\item
+  Supporting educational decision-making
+\item
+  Assisting in policy formulation
+\item
+  Optimizing the allocation of educational resources
+\end{itemize}
+
+Ultimately, the goal is to better understand and improve the key factors
+influencing student success, thereby enabling educators and policymakers
+to provide more targeted support.
+
+\subsubsection{Variable Descriptions}\label{variable-descriptions}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Hours\_Studied}: Daily study hours.\\
+\item
+  \textbf{Attendance}: Attendance rate (percentage).\\
+\item
+  \textbf{Parental\_Involvement}: Parent involvement (Low, Medium,
+  High).\\
+\item
+  \textbf{Access\_to\_Resources}: Resource accessibility (Low, Medium,
+  High).\\
+\item
+  \textbf{Extracurricular\_Activities}: Participation in extracurricular
+  activities.\\
+\item
+  \textbf{Sleep\_Hours}: Daily sleep hours.\\
+\item
+  \textbf{Previous\_Scores}: Prior exam scores.\\
+\item
+  \textbf{Motivation\_Level}: Motivation level (Low, Medium, High).\\
+\item
+  \textbf{Internet\_Access}: Internet access.\\
+\item
+  \textbf{Tutoring\_Sessions}: Number of tutoring sessions.\\
+\item
+  \textbf{Family\_Income}: Family income level (Low, Medium, High).\\
+\item
+  \textbf{Teacher\_Quality}: Teacher quality (Low, Medium, High).\\
+\item
+  \textbf{School\_Type}: School type (Public or Private).\\
+\item
+  \textbf{Peer\_Influence}: Peer influence (Positive, Neutral,
+  Negative).\\
+\item
+  \textbf{Physical\_Activity}: Weekly physical activity hours.\\
+\item
+  \textbf{Learning\_Disabilities}: Presence of learning disabilities.\\
+\item
+  \textbf{Parental\_Education\_Level}: Parents' education level (High
+  School, College, Postgraduate).\\
+\item
+  \textbf{Distance\_from\_Home}: Distance from home to school (Near,
+  Moderate, Far).\\
+\item
+  \textbf{Gender}: Student gender (Male or Female).\\
+\item
+  \textbf{Exam\_Score}: Academic performance indicator (exam score).
+\end{enumerate}
+
+\subsubsection{Research Questions}\label{research-questions}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Which factors are the most significant predictors of students'
+  exam scores?}
+\item
+  \textbf{How do parental involvement, access to resources, and
+  socioeconomic factors impact student performance?}
+\item
+  \textbf{What is the combined effect of study habits, peer influence,
+  and tutoring sessions on exam outcomes?}
+\item
+  \textbf{Does school type or teacher quality significantly influence
+  exam scores?}
+\end{enumerate}
+
+\subsubsection{Methods Used in the
+Analysis}\label{methods-used-in-the-analysis}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Exploratory Data Analysis}: Initial analysis includes
+  correlation calculations to understand the relationships between
+  predictors and exam scores.
+\item
+  \textbf{Multiple Linear Regression}: Regression models are built using
+  significant predictors such as attendance, hours studied, and previous
+  scores. The model is validated using metrics like adjusted R-squared,
+  p-values, and F-statistics.
+\item
+  \textbf{ANOVA (Types I, II, and III)}: Variance analysis is conducted
+  to understand the contribution of each predictor to the total variance
+  in exam scores.
+\item
+  \textbf{Model Evaluation}: The model's prediction capability is
+  visualized through plots of actual vs.~predicted exam scores,
+  residuals distribution, and summary statistics.
+\end{enumerate}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{253}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{students} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{data/StudentPerformanceFactors.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \subsection{EDA}\label{eda}
+
+    \subsubsection{First sniff of the data}\label{first-sniff-of-the-data}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{254}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Our dataset has }\PY{l+s+si}{\PYZob{}}\PY{n}{students}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ variables and }\PY{l+s+si}{\PYZob{}}\PY{n}{students}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ records}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Our dataset has 20 variables and 6607 records
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{255}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{students}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{255}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+   Hours\_Studied  Attendance Parental\_Involvement Access\_to\_Resources  \textbackslash{}
+0             23          84                  Low                High
+1             19          64                  Low              Medium
+2             24          98               Medium              Medium
+3             29          89                  Low              Medium
+4             19          92               Medium              Medium
+
+  Extracurricular\_Activities  Sleep\_Hours  Previous\_Scores Motivation\_Level  \textbackslash{}
+0                         No            7               73              Low
+1                         No            8               59              Low
+2                        Yes            7               91           Medium
+3                        Yes            8               98           Medium
+4                        Yes            6               65           Medium
+
+  Internet\_Access  Tutoring\_Sessions Family\_Income Teacher\_Quality  \textbackslash{}
+0             Yes                  0           Low          Medium
+1             Yes                  2        Medium          Medium
+2             Yes                  2        Medium          Medium
+3             Yes                  1        Medium          Medium
+4             Yes                  3        Medium            High
+
+  School\_Type Peer\_Influence  Physical\_Activity Learning\_Disabilities  \textbackslash{}
+0      Public       Positive                  3                    No
+1      Public       Negative                  4                    No
+2      Public        Neutral                  4                    No
+3      Public       Negative                  4                    No
+4      Public        Neutral                  4                    No
+
+  Parental\_Education\_Level Distance\_from\_Home  Gender  Exam\_Score
+0              High School               Near    Male          67
+1                  College           Moderate  Female          61
+2             Postgraduate               Near    Male          74
+3              High School           Moderate    Male          71
+4                  College               Near  Female          70
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{256}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{students}\PY{o}{.}\PY{n}{info}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 6607 entries, 0 to 6606
+Data columns (total 20 columns):
+ \#   Column                      Non-Null Count  Dtype
+---  ------                      --------------  -----
+ 0   Hours\_Studied               6607 non-null   int64
+ 1   Attendance                  6607 non-null   int64
+ 2   Parental\_Involvement        6607 non-null   object
+ 3   Access\_to\_Resources         6607 non-null   object
+ 4   Extracurricular\_Activities  6607 non-null   object
+ 5   Sleep\_Hours                 6607 non-null   int64
+ 6   Previous\_Scores             6607 non-null   int64
+ 7   Motivation\_Level            6607 non-null   object
+ 8   Internet\_Access             6607 non-null   object
+ 9   Tutoring\_Sessions           6607 non-null   int64
+ 10  Family\_Income               6607 non-null   object
+ 11  Teacher\_Quality             6529 non-null   object
+ 12  School\_Type                 6607 non-null   object
+ 13  Peer\_Influence              6607 non-null   object
+ 14  Physical\_Activity           6607 non-null   int64
+ 15  Learning\_Disabilities       6607 non-null   object
+ 16  Parental\_Education\_Level    6517 non-null   object
+ 17  Distance\_from\_Home          6540 non-null   object
+ 18  Gender                      6607 non-null   object
+ 19  Exam\_Score                  6607 non-null   int64
+dtypes: int64(7), object(13)
+memory usage: 1.0+ MB
+    \end{Verbatim}
+
+    \subsubsection{Variable types}\label{variable-types}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{257}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{object\PYZus{}cols} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+\PY{n}{numeric\PYZus{}cols} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+\PY{k}{for} \PY{n}{colname} \PY{o+ow}{in} \PY{n}{students}\PY{o}{.}\PY{n}{columns}\PY{p}{:}
+    \PY{n+nb}{type} \PY{o}{=} \PY{n}{students}\PY{p}{[}\PY{n}{colname}\PY{p}{]}\PY{o}{.}\PY{n}{dtype}
+    \PY{k}{if} \PY{n+nb}{type} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{int64}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}
+        \PY{n}{numeric\PYZus{}cols}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{colname}\PY{p}{)}
+    \PY{k}{elif} \PY{n+nb}{type} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{object}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}
+        \PY{n}{object\PYZus{}cols}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{colname}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{258}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Object columns: }\PY{l+s+si}{\PYZob{}}\PY{n}{object\PYZus{}cols}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Numeric columns: }\PY{l+s+si}{\PYZob{}}\PY{n}{numeric\PYZus{}cols}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Object columns: ['Parental\_Involvement', 'Access\_to\_Resources',
+'Extracurricular\_Activities', 'Motivation\_Level', 'Internet\_Access',
+'Family\_Income', 'Teacher\_Quality', 'School\_Type', 'Peer\_Influence',
+'Learning\_Disabilities', 'Parental\_Education\_Level', 'Distance\_from\_Home',
+'Gender']
+Numeric columns: ['Hours\_Studied', 'Attendance', 'Sleep\_Hours',
+'Previous\_Scores', 'Tutoring\_Sessions', 'Physical\_Activity', 'Exam\_Score']
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{259}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{unique\PYZus{}values} \PY{o}{=} \PY{n}{students}\PY{o}{.}\PY{n}{nunique}\PY{p}{(}\PY{p}{)}
+\PY{n}{unique\PYZus{}values}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{259}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Hours\_Studied                 41
+Attendance                    41
+Parental\_Involvement           3
+Access\_to\_Resources            3
+Extracurricular\_Activities     2
+Sleep\_Hours                    7
+Previous\_Scores               51
+Motivation\_Level               3
+Internet\_Access                2
+Tutoring\_Sessions              9
+Family\_Income                  3
+Teacher\_Quality                3
+School\_Type                    2
+Peer\_Influence                 3
+Physical\_Activity              7
+Learning\_Disabilities          2
+Parental\_Education\_Level       3
+Distance\_from\_Home             3
+Gender                         2
+Exam\_Score                    45
+dtype: int64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Let's check that all of our object variables can be turned into
+categorical:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{260}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{students}\PY{p}{[}\PY{n}{object\PYZus{}cols}\PY{p}{]}\PY{o}{.}\PY{n}{nunique}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{260}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Parental\_Involvement          3
+Access\_to\_Resources           3
+Extracurricular\_Activities    2
+Motivation\_Level              3
+Internet\_Access               2
+Family\_Income                 3
+Teacher\_Quality               3
+School\_Type                   2
+Peer\_Influence                3
+Learning\_Disabilities         2
+Parental\_Education\_Level      3
+Distance\_from\_Home            3
+Gender                        2
+dtype: int64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Since all of them are not actually continuous or discrete values with a
+lot of unique values, let's go ahead and turn them info categorical
+variables.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{261}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{students}\PY{p}{[}\PY{n}{object\PYZus{}cols}\PY{p}{]} \PY{o}{=} \PY{n}{students}\PY{p}{[}\PY{n}{object\PYZus{}cols}\PY{p}{]}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{category}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Let's check our resulting column types and redefine our lists.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{262}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{students}\PY{o}{.}\PY{n}{info}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 6607 entries, 0 to 6606
+Data columns (total 20 columns):
+ \#   Column                      Non-Null Count  Dtype
+---  ------                      --------------  -----
+ 0   Hours\_Studied               6607 non-null   int64
+ 1   Attendance                  6607 non-null   int64
+ 2   Parental\_Involvement        6607 non-null   category
+ 3   Access\_to\_Resources         6607 non-null   category
+ 4   Extracurricular\_Activities  6607 non-null   category
+ 5   Sleep\_Hours                 6607 non-null   int64
+ 6   Previous\_Scores             6607 non-null   int64
+ 7   Motivation\_Level            6607 non-null   category
+ 8   Internet\_Access             6607 non-null   category
+ 9   Tutoring\_Sessions           6607 non-null   int64
+ 10  Family\_Income               6607 non-null   category
+ 11  Teacher\_Quality             6529 non-null   category
+ 12  School\_Type                 6607 non-null   category
+ 13  Peer\_Influence              6607 non-null   category
+ 14  Physical\_Activity           6607 non-null   int64
+ 15  Learning\_Disabilities       6607 non-null   category
+ 16  Parental\_Education\_Level    6517 non-null   category
+ 17  Distance\_from\_Home          6540 non-null   category
+ 18  Gender                      6607 non-null   category
+ 19  Exam\_Score                  6607 non-null   int64
+dtypes: category(13), int64(7)
+memory usage: 447.0 KB
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{263}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{categorical\PYZus{}variables} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+\PY{n}{numerical\PYZus{}variables} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+\PY{k}{for} \PY{n}{colname} \PY{o+ow}{in} \PY{n}{students}\PY{o}{.}\PY{n}{columns}\PY{p}{:}
+    \PY{n+nb}{type} \PY{o}{=} \PY{n}{students}\PY{p}{[}\PY{n}{colname}\PY{p}{]}\PY{o}{.}\PY{n}{dtype}
+    \PY{k}{if} \PY{n+nb}{type} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{int64}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}
+        \PY{n}{numerical\PYZus{}variables}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{colname}\PY{p}{)}
+    \PY{k}{elif} \PY{n+nb}{type} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{category}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}
+        \PY{n}{categorical\PYZus{}variables}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{colname}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{264}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Categorical variables: }\PY{l+s+si}{\PYZob{}}\PY{n}{categorical\PYZus{}variables}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Numerical variables: }\PY{l+s+si}{\PYZob{}}\PY{n}{numerical\PYZus{}variables}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Categorical variables: ['Parental\_Involvement', 'Access\_to\_Resources',
+'Extracurricular\_Activities', 'Motivation\_Level', 'Internet\_Access',
+'Family\_Income', 'Teacher\_Quality', 'School\_Type', 'Peer\_Influence',
+'Learning\_Disabilities', 'Parental\_Education\_Level', 'Distance\_from\_Home',
+'Gender']
+Numerical variables: ['Hours\_Studied', 'Attendance', 'Sleep\_Hours',
+'Previous\_Scores', 'Tutoring\_Sessions', 'Physical\_Activity', 'Exam\_Score']
+    \end{Verbatim}
+
+    \subsubsection{Missing values}\label{missing-values}
+
+Let's take a closer look at the missing values in our dataset.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{265}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{students}\PY{o}{.}\PY{n}{isnull}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{265}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Hours\_Studied                  0
+Attendance                     0
+Parental\_Involvement           0
+Access\_to\_Resources            0
+Extracurricular\_Activities     0
+Sleep\_Hours                    0
+Previous\_Scores                0
+Motivation\_Level               0
+Internet\_Access                0
+Tutoring\_Sessions              0
+Family\_Income                  0
+Teacher\_Quality               78
+School\_Type                    0
+Peer\_Influence                 0
+Physical\_Activity              0
+Learning\_Disabilities          0
+Parental\_Education\_Level      90
+Distance\_from\_Home            67
+Gender                         0
+Exam\_Score                     0
+dtype: int64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Let's check the actual frequency of our missing values based on the
+total amount of records we have.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{266}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{students}\PY{o}{.}\PY{n}{isnull}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{o}{/}\PY{n+nb}{len}\PY{p}{(}\PY{n}{students}\PY{p}{)}\PY{o}{*}\PY{l+m+mi}{100}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{266}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Hours\_Studied                 0.000000
+Attendance                    0.000000
+Parental\_Involvement          0.000000
+Access\_to\_Resources           0.000000
+Extracurricular\_Activities    0.000000
+Sleep\_Hours                   0.000000
+Previous\_Scores               0.000000
+Motivation\_Level              0.000000
+Internet\_Access               0.000000
+Tutoring\_Sessions             0.000000
+Family\_Income                 0.000000
+Teacher\_Quality               1.180566
+School\_Type                   0.000000
+Peer\_Influence                0.000000
+Physical\_Activity             0.000000
+Learning\_Disabilities         0.000000
+Parental\_Education\_Level      1.362192
+Distance\_from\_Home            1.014076
+Gender                        0.000000
+Exam\_Score                    0.000000
+dtype: float64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The percentage of missing values we have is very very low, and since we
+have a considerable number of records as it is, we've decided to
+\textbf{drop the records with missing data}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{267}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{students\PYZus{}adjusted} \PY{o}{=} \PY{n}{students}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{p}{)}
+\PY{n}{students\PYZus{}adjusted}\PY{o}{.}\PY{n}{isnull}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{267}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Hours\_Studied                 0
+Attendance                    0
+Parental\_Involvement          0
+Access\_to\_Resources           0
+Extracurricular\_Activities    0
+Sleep\_Hours                   0
+Previous\_Scores               0
+Motivation\_Level              0
+Internet\_Access               0
+Tutoring\_Sessions             0
+Family\_Income                 0
+Teacher\_Quality               0
+School\_Type                   0
+Peer\_Influence                0
+Physical\_Activity             0
+Learning\_Disabilities         0
+Parental\_Education\_Level      0
+Distance\_from\_Home            0
+Gender                        0
+Exam\_Score                    0
+dtype: int64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{268}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{The original dataset, students, has }\PY{l+s+si}{\PYZob{}}\PY{n}{students}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ variables and }\PY{l+s+si}{\PYZob{}}\PY{n}{students}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ records}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{We had a total of }\PY{l+s+si}{\PYZob{}}\PY{n}{students}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{n}{students\PYZus{}adjusted}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ records with missing data.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Our resulting dataset, adjusted\PYZus{}students, has }\PY{l+s+si}{\PYZob{}}\PY{n}{students\PYZus{}adjusted}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ variables and }\PY{l+s+si}{\PYZob{}}\PY{n}{students\PYZus{}adjusted}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ records}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+The original dataset, students, has 20 variables and 6607 records
+We had a total of 229 records with missing data.
+Our resulting dataset, adjusted\_students, has 20 variables and 6378 records
+    \end{Verbatim}
+
+    \subsubsection{First visualizations}\label{first-visualizations}
+
+    We want to visualize our variables, and therefore will use a number of
+different plots. We will approach numerical and categorical variables
+differently.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{269}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Categorical variables: }\PY{l+s+si}{\PYZob{}}\PY{n}{categorical\PYZus{}variables}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Numerical variables: }\PY{l+s+si}{\PYZob{}}\PY{n}{numerical\PYZus{}variables}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Categorical variables: ['Parental\_Involvement', 'Access\_to\_Resources',
+'Extracurricular\_Activities', 'Motivation\_Level', 'Internet\_Access',
+'Family\_Income', 'Teacher\_Quality', 'School\_Type', 'Peer\_Influence',
+'Learning\_Disabilities', 'Parental\_Education\_Level', 'Distance\_from\_Home',
+'Gender']
+Numerical variables: ['Hours\_Studied', 'Attendance', 'Sleep\_Hours',
+'Previous\_Scores', 'Tutoring\_Sessions', 'Physical\_Activity', 'Exam\_Score']
+    \end{Verbatim}
+
+    \paragraph{Categorical variables}\label{categorical-variables}
+
+    \subparagraph{Bar plots}\label{bar-plots}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{270}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{18}\PY{p}{,} \PY{l+m+mi}{18}\PY{p}{)}\PY{p}{)}
+\PY{n}{gs} \PY{o}{=} \PY{n}{gridspec}\PY{o}{.}\PY{n}{GridSpec}\PY{p}{(}\PY{n}{nrows}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{,} \PY{n}{ncols}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{)}
+
+\PY{n}{ax00} \PY{o}{=} \PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}subplot}\PY{p}{(}\PY{n}{gs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+\PY{n}{ax01} \PY{o}{=} \PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}subplot}\PY{p}{(}\PY{n}{gs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+\PY{n}{ax02} \PY{o}{=} \PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}subplot}\PY{p}{(}\PY{n}{gs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}
+\PY{n}{ax03} \PY{o}{=} \PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}subplot}\PY{p}{(}\PY{n}{gs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{]}\PY{p}{)}
+\PY{n}{ax10} \PY{o}{=} \PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}subplot}\PY{p}{(}\PY{n}{gs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+\PY{n}{ax11} \PY{o}{=} \PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}subplot}\PY{p}{(}\PY{n}{gs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+\PY{n}{ax12} \PY{o}{=} \PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}subplot}\PY{p}{(}\PY{n}{gs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}
+\PY{n}{ax13} \PY{o}{=} \PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}subplot}\PY{p}{(}\PY{n}{gs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{]}\PY{p}{)}
+\PY{n}{ax20} \PY{o}{=} \PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}subplot}\PY{p}{(}\PY{n}{gs}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+\PY{n}{ax21} \PY{o}{=} \PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}subplot}\PY{p}{(}\PY{n}{gs}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+\PY{n}{ax22} \PY{o}{=} \PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}subplot}\PY{p}{(}\PY{n}{gs}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}
+\PY{n}{ax23} \PY{o}{=} \PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}subplot}\PY{p}{(}\PY{n}{gs}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{]}\PY{p}{)}
+\PY{n}{ax30} \PY{o}{=} \PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}subplot}\PY{p}{(}\PY{n}{gs}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+
+\PY{n}{ax} \PY{o}{=} \PY{p}{[}\PY{n}{ax00}\PY{p}{,} \PY{n}{ax01}\PY{p}{,} \PY{n}{ax02}\PY{p}{,} \PY{n}{ax03}\PY{p}{,} \PY{n}{ax10}\PY{p}{,} \PY{n}{ax11}\PY{p}{,} \PY{n}{ax12}\PY{p}{,} \PY{n}{ax13}\PY{p}{,} \PY{n}{ax20}\PY{p}{,} \PY{n}{ax21}\PY{p}{,} \PY{n}{ax22}\PY{p}{,} \PY{n}{ax23}\PY{p}{,} \PY{n}{ax30}\PY{p}{]}
+
+\PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{colname} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{categorical\PYZus{}variables}\PY{p}{)}\PY{p}{:}
+
+    \PY{n}{group} \PY{o}{=} \PY{n}{students}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{n}{colname}\PY{p}{,} \PY{n}{observed}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{o}{.}\PY{n}{size}\PY{p}{(}\PY{p}{)}
+
+    \PY{n}{ax}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{bar}\PY{p}{(}\PY{n}{group}\PY{o}{.}\PY{n}{index}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{str}\PY{p}{)}\PY{p}{,} \PY{n}{group}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{n}{colors}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{blue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+
+    \PY{n}{ax}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Frequency}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{ax}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Frequency for each}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+si}{\PYZob{}}\PY{n}{colname}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ group}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{modeling-student-performance_files/modeling-student-performance_34_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subparagraph{Confusion tables}\label{confusion-tables}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{271}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{parent\PYZus{}invol\PYZus{}resource\PYZus{}access\PYZus{}crossed} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{crosstab}\PY{p}{(}\PY{n}{students}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Parental\PYZus{}Involvement}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}\PY{n}{students}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Access\PYZus{}to\PYZus{}Resources}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{parent\PYZus{}invol\PYZus{}resource\PYZus{}access\PYZus{}crossed}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Access\_to\_Resources   High  Low  Medium
+Parental\_Involvement
+High                   568  413     927
+Low                    414  231     692
+Medium                 993  669    1700
+    \end{Verbatim}
+
+    Since students who have medium/high parental involvement also have
+medium/high access to resources, both categories aren't necessary for
+the model and since access to resources matters more for our model,
+we'll be dropping parental involvement.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{272}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{peer\PYZus{}influence\PYZus{}income\PYZus{}crossed} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{crosstab}\PY{p}{(}\PY{n}{students}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Peer\PYZus{}Influence}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}\PY{n}{students}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Family\PYZus{}Income}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{peer\PYZus{}influence\PYZus{}income\PYZus{}crossed}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Family\_Income   High   Low  Medium
+Peer\_Influence
+Negative         251   577     549
+Neutral          493  1038    1061
+Positive         525  1057    1056
+    \end{Verbatim}
+
+    Since students who have medium/high family income also have
+neutral/positive peer relationships, both categories aren't necessary
+for the model and we've chosen to keep family income as it's a variable
+of interest.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{273}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{distance\PYZus{}motivation\PYZus{}crossed} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{crosstab}\PY{p}{(}\PY{n}{students}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Distance\PYZus{}from\PYZus{}Home}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{students}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Motivation\PYZus{}Level}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{distance\PYZus{}motivation\PYZus{}crossed}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Motivation\_Level    High   Low  Medium
+Distance\_from\_Home
+Far                  142   185     331
+Moderate             394   611     993
+Near                 773  1125    1986
+    \end{Verbatim}
+
+    Since students with medium/high motivation levels live moderate/near
+schools, both categories aren't necessary for the model and we've chosen
+to keep motivation levels as it's a variable of interest.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{274}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{students} \PY{o}{=} \PY{n}{students\PYZus{}adjusted}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Distance\PYZus{}from\PYZus{}Home}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Peer\PYZus{}Influence}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Parental\PYZus{}Involvement}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{275}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{students}\PY{o}{.}\PY{n}{sample}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{275}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+      Hours\_Studied  Attendance Access\_to\_Resources  \textbackslash{}
+4669             20          71                High
+3077             23          87                 Low
+4616             27          99              Medium
+5903             26          63              Medium
+5270             28          91              Medium
+
+     Extracurricular\_Activities  Sleep\_Hours  Previous\_Scores  \textbackslash{}
+4669                        Yes            6               56
+3077                         No            7               79
+4616                        Yes            5               69
+5903                        Yes            5               76
+5270                         No            7               90
+
+     Motivation\_Level Internet\_Access  Tutoring\_Sessions Family\_Income  \textbackslash{}
+4669             High             Yes                  5        Medium
+3077           Medium             Yes                  2        Medium
+4616           Medium             Yes                  2        Medium
+5903           Medium             Yes                  3        Medium
+5270           Medium             Yes                  2          High
+
+     Teacher\_Quality School\_Type  Physical\_Activity Learning\_Disabilities  \textbackslash{}
+4669          Medium     Private                  5                    No
+3077          Medium      Public                  2                    No
+4616             Low      Public                  2                    No
+5903            High      Public                  5                   Yes
+5270             Low     Private                  3                    No
+
+     Parental\_Education\_Level  Gender  Exam\_Score
+4669                  College    Male          68
+3077              High School    Male          67
+4616             Postgraduate    Male          73
+5903              High School  Female          66
+5270              High School    Male          71
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \paragraph{Numerical variables}\label{numerical-variables}
+
+    \subparagraph{Boxplots}\label{boxplots}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{276}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{14}\PY{p}{,} \PY{l+m+mi}{14}\PY{p}{)}\PY{p}{)}
+\PY{n}{gs} \PY{o}{=} \PY{n}{gridspec}\PY{o}{.}\PY{n}{GridSpec}\PY{p}{(}\PY{n}{nrows}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{ncols}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+
+\PY{n}{ax00} \PY{o}{=} \PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}subplot}\PY{p}{(}\PY{n}{gs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+\PY{n}{ax01} \PY{o}{=} \PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}subplot}\PY{p}{(}\PY{n}{gs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+\PY{n}{ax02} \PY{o}{=} \PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}subplot}\PY{p}{(}\PY{n}{gs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}
+\PY{n}{ax10} \PY{o}{=} \PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}subplot}\PY{p}{(}\PY{n}{gs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+\PY{n}{ax11} \PY{o}{=} \PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}subplot}\PY{p}{(}\PY{n}{gs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+\PY{n}{ax12} \PY{o}{=} \PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}subplot}\PY{p}{(}\PY{n}{gs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}
+\PY{n}{ax20} \PY{o}{=} \PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}subplot}\PY{p}{(}\PY{n}{gs}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+
+\PY{n}{ax} \PY{o}{=} \PY{p}{[}\PY{n}{ax00}\PY{p}{,} \PY{n}{ax01}\PY{p}{,} \PY{n}{ax02}\PY{p}{,} \PY{n}{ax10}\PY{p}{,} \PY{n}{ax11}\PY{p}{,} \PY{n}{ax12}\PY{p}{,} \PY{n}{ax20}\PY{p}{]}
+
+\PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{colname} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{numerical\PYZus{}variables}\PY{p}{)}\PY{p}{:}
+
+    \PY{n}{ax}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{boxplot}\PY{p}{(}\PY{n}{students}\PY{p}{[}\PY{n}{colname}\PY{p}{]}\PY{p}{,} 
+                  \PY{n}{patch\PYZus{}artist}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}
+                   \PY{n}{boxprops}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}\PY{n}{facecolor}\PY{o}{=}\PY{n}{colors}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{custom\PYZus{}blues}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{,}
+                  \PY{n}{capprops}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}\PY{n}{color}\PY{o}{=}\PY{n}{colors}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{custom\PYZus{}blues}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]}\PY{p}{)}\PY{p}{,}
+                  \PY{n}{medianprops}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}\PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+    
+    \PY{n}{ax}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Distribution for }\PY{l+s+si}{\PYZob{}}\PY{n}{colname}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{modeling-student-performance_files/modeling-student-performance_46_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subparagraph{Pairwise plot}\label{pairwise-plot}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{277}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{sns}\PY{o}{.}\PY{n}{pairplot}\PY{p}{(}\PY{n}{students}\PY{p}{[}\PY{n}{numerical\PYZus{}variables}\PY{p}{]}\PY{p}{,} \PY{n}{diag\PYZus{}kind}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{hist}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{plot\PYZus{}kws}\PY{o}{=}\PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{s}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mi}{15}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{color}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{colors}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{blue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{\PYZcb{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{277}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<seaborn.axisgrid.PairGrid at 0x28d05faa0>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{modeling-student-performance_files/modeling-student-performance_48_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subparagraph{Correlation heatmap}\label{correlation-heatmap}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{278}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{student\PYZus{}corr} \PY{o}{=} \PY{n}{students}\PY{p}{[}\PY{n}{numeric\PYZus{}cols}\PY{p}{]}\PY{o}{.}\PY{n}{corr}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{279}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{p}{)}
+\PY{n}{sns}\PY{o}{.}\PY{n}{heatmap}\PY{p}{(}\PY{n}{student\PYZus{}corr}\PY{p}{,} \PY{n}{annot}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{cmap}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Blues}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fmt}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{.2f}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linewidths}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Correlation Heatmap}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{modeling-student-performance_files/modeling-student-performance_51_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsection{Our hypotheses}\label{our-hypotheses}
+
+    Since we were able to see some linear relationship between a few of our
+numerical variables and \texttt{Exam\_Score}, we have decided to pick
+this variable as our response variable.
+
+The correlation heatmap also supports our choice of response variable,
+where we can see correlation between exam scores and the rest of the
+variables.
+
+In the context of our problem, modeling student performance, we think
+choosing exam scores as our response variable is a good way to ascertain
+how students perform, and which factors influence the way they score in
+tests.
+
+We have initially seen linearity in the scatterplots between exam score
+and hours studied, attendance, previous scores and tutoring sessions.
+We'll try to assess wether or not these numerical variables are
+statistically significant when predicting exam scores.
+
+In regards to our remaining categorical variables after discarding based
+on confusion tables, we'll check for significance for all of them and
+try to ascertain which variables are best to include in our model with
+the goal of predicting exam scores.
+
+As previously stated, the correlation heatmap seems to indicate we don't
+have severe multicollinearity. Further checks need to be done to ensure
+this.
+
+We have to consider the fact that Exam Scores are clustered around 65
+out of 100, and we have what we could consider some outliers in the
+higher ranges. Based on this, we think we may encounter that the high
+scores have a different relationship to the predictors compared to the
+majority of the other scores, which are around the 65\%.
+
+    \textbf{Our response variable will be: Exam\_Score}
+
+    \subsection{Initial Model}\label{initial-model}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{280}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{X} \PY{o}{=} \PY{n}{students}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exam\PYZus{}Score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{y} \PY{o}{=} \PY{n}{students}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exam\PYZus{}Score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{281}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{categorical\PYZus{}cols} \PY{o}{=} \PY{n}{X}\PY{o}{.}\PY{n}{select\PYZus{}dtypes}\PY{p}{(}\PY{n}{include}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{object}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{category}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{columns}
+\PY{n}{numerical\PYZus{}cols} \PY{o}{=} \PY{n}{X}\PY{o}{.}\PY{n}{select\PYZus{}dtypes}\PY{p}{(}\PY{n}{include}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{int64}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{float64}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{columns}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{282}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{le} \PY{o}{=} \PY{n}{LabelEncoder}\PY{p}{(}\PY{p}{)}
+\PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n}{categorical\PYZus{}cols}\PY{p}{:}
+    \PY{n}{X}\PY{p}{[}\PY{n}{col}\PY{p}{]} \PY{o}{=} \PY{n}{le}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{X}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{p}{)}
+
+\PY{n}{scaler} \PY{o}{=} \PY{n}{StandardScaler}\PY{p}{(}\PY{p}{)}
+\PY{n}{X\PYZus{}scaled} \PY{o}{=} \PY{n}{scaler}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{X}\PY{p}{)}
+
+
+\PY{n}{results} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{columns}\PY{o}{=}\PY{p}{[}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Predictor}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Correlation}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{P\PYZhy{}value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{R\PYZhy{}squared}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Adj\PYZus{}R\PYZhy{}squared}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{VIF}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{T\PYZhy{}statistic}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{F\PYZhy{}statistic}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AIC}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{BIC}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ANOVA\PYZus{}Type1\PYZus{}F}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ANOVA\PYZus{}Type1\PYZus{}P}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ANOVA\PYZus{}Type2\PYZus{}F}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ANOVA\PYZus{}Type2\PYZus{}P}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ANOVA\PYZus{}Type3\PYZus{}F}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ANOVA\PYZus{}Type3\PYZus{}P}\PY{l+s+s1}{\PYZsq{}}
+\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{283}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{predictor} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{X}\PY{o}{.}\PY{n}{columns}\PY{p}{)}\PY{p}{:}
+    \PY{n}{X\PYZus{}i} \PY{o}{=} \PY{n}{sm}\PY{o}{.}\PY{n}{add\PYZus{}constant}\PY{p}{(}\PY{n}{X\PYZus{}scaled}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{n}{i}\PY{p}{]}\PY{p}{)}
+    \PY{n}{model} \PY{o}{=} \PY{n}{sm}\PY{o}{.}\PY{n}{OLS}\PY{p}{(}\PY{n}{y}\PY{p}{,} \PY{n}{X\PYZus{}i}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{p}{)}
+    
+    \PY{n}{p\PYZus{}value} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{pvalues}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+    \PY{n}{rsq} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{rsquared}
+    \PY{n}{adj\PYZus{}rsq} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{rsquared\PYZus{}adj}
+    \PY{n}{t\PYZus{}statistic} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{tvalues}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+    \PY{n}{f\PYZus{}statistic} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{fvalue}
+    \PY{n}{vif} \PY{o}{=} \PY{n}{variance\PYZus{}inflation\PYZus{}factor}\PY{p}{(}\PY{n}{X\PYZus{}scaled}\PY{p}{,} \PY{n}{i}\PY{p}{)}
+    \PY{n}{aic} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{aic}  
+    \PY{n}{bic} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{bic}  
+    
+    \PY{n}{correlation} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{n}{X\PYZus{}scaled}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{n}{i}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{corr}\PY{p}{(}\PY{n}{y}\PY{p}{)}
+    
+    \PY{n}{formula} \PY{o}{=} \PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exam\PYZus{}Score \PYZti{} }\PY{l+s+si}{\PYZob{}}\PY{n}{predictor}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}
+    \PY{n}{model\PYZus{}anova} \PY{o}{=} \PY{n}{smf}\PY{o}{.}\PY{n}{ols}\PY{p}{(}\PY{n}{formula}\PY{p}{,} \PY{n}{data}\PY{o}{=}\PY{n}{students\PYZus{}adjusted}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{p}{)}
+
+    \PY{n}{anova\PYZus{}type1} \PY{o}{=} \PY{n}{anova\PYZus{}lm}\PY{p}{(}\PY{n}{model\PYZus{}anova}\PY{p}{,} \PY{n}{typ}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+    \PY{n}{anova\PYZus{}type1\PYZus{}f} \PY{o}{=} \PY{n}{anova\PYZus{}type1}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{F}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+    \PY{n}{anova\PYZus{}type1\PYZus{}p} \PY{o}{=} \PY{n}{anova\PYZus{}type1}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{PR(\PYZgt{}F)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+    
+    \PY{n}{anova\PYZus{}type2} \PY{o}{=} \PY{n}{anova\PYZus{}lm}\PY{p}{(}\PY{n}{model\PYZus{}anova}\PY{p}{,} \PY{n}{typ}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+    \PY{n}{anova\PYZus{}type2\PYZus{}f} \PY{o}{=} \PY{n}{anova\PYZus{}type2}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{F}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+    \PY{n}{anova\PYZus{}type2\PYZus{}p} \PY{o}{=} \PY{n}{anova\PYZus{}type2}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{PR(\PYZgt{}F)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+    
+    \PY{n}{anova\PYZus{}type3} \PY{o}{=} \PY{n}{anova\PYZus{}lm}\PY{p}{(}\PY{n}{model\PYZus{}anova}\PY{p}{,} \PY{n}{typ}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
+    \PY{n}{anova\PYZus{}type3\PYZus{}f} \PY{o}{=} \PY{n}{anova\PYZus{}type3}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{F}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+    \PY{n}{anova\PYZus{}type3\PYZus{}p} \PY{o}{=} \PY{n}{anova\PYZus{}type3}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{PR(\PYZgt{}F)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+    
+    \PY{n}{current\PYZus{}results} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{\PYZob{}}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Predictor}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{n}{predictor}\PY{p}{]}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Correlation}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{n}{correlation}\PY{p}{]}\PY{p}{,}  \PY{c+c1}{\PYZsh{} Correlation in the second column}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{P\PYZhy{}value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{n}{p\PYZus{}value}\PY{p}{]}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{R\PYZhy{}squared}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{n}{rsq}\PY{p}{]}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Adj\PYZus{}R\PYZhy{}squared}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{n}{adj\PYZus{}rsq}\PY{p}{]}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{VIF}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{n}{vif}\PY{p}{]}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{T\PYZhy{}statistic}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{n}{t\PYZus{}statistic}\PY{p}{]}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{F\PYZhy{}statistic}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{n}{f\PYZus{}statistic}\PY{p}{]}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AIC}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{n}{aic}\PY{p}{]}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{BIC}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{n}{bic}\PY{p}{]}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ANOVA\PYZus{}Type1\PYZus{}F}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{n}{anova\PYZus{}type1\PYZus{}f}\PY{p}{]}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ANOVA\PYZus{}Type1\PYZus{}P}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{n}{anova\PYZus{}type1\PYZus{}p}\PY{p}{]}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ANOVA\PYZus{}Type2\PYZus{}F}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{n}{anova\PYZus{}type2\PYZus{}f}\PY{p}{]}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ANOVA\PYZus{}Type2\PYZus{}P}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{n}{anova\PYZus{}type2\PYZus{}p}\PY{p}{]}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ANOVA\PYZus{}Type3\PYZus{}F}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{n}{anova\PYZus{}type3\PYZus{}f}\PY{p}{]}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ANOVA\PYZus{}Type3\PYZus{}P}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{n}{anova\PYZus{}type3\PYZus{}p}\PY{p}{]}
+    \PY{p}{\PYZcb{}}\PY{p}{)}
+
+    \PY{n}{current\PYZus{}results} \PY{o}{=} \PY{n}{current\PYZus{}results}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{n}{how}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{all}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+    \PY{n}{results} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{concat}\PY{p}{(}\PY{p}{[}\PY{n}{results}\PY{p}{,} \PY{n}{current\PYZus{}results}\PY{p}{]}\PY{p}{,} \PY{n}{ignore\PYZus{}index}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+\PY{n}{results\PYZus{}sorted} \PY{o}{=} \PY{n}{results}\PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{n}{by}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Adj\PYZus{}R\PYZhy{}squared}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{ascending}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\PY{n}{results\PYZus{}sorted}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/var/folders/bn/8l9zg4092yg1r262fl2zn9nw0000gn/T/ipykernel\_4079/3609911391.py:51
+: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA
+entries is deprecated. In a future version, this will no longer exclude empty or
+all-NA columns when determining the result dtypes. To retain the old behavior,
+exclude the relevant entries before the concat operation.
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{283}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                     Predictor  Correlation        P-value  R-squared  \textbackslash{}
+1                   Attendance     0.003104   0.000000e+00   0.336700
+0                Hours\_Studied     0.003507  4.524802e-308   0.198118
+5              Previous\_Scores     0.019833   1.121433e-44   0.030375
+8            Tutoring\_Sessions     0.002661   2.102216e-36   0.024595
+2          Access\_to\_Resources     0.000353   1.446812e-12   0.007830
+13       Learning\_Disabilities    -0.005272   1.921126e-11   0.007041
+3   Extracurricular\_Activities     0.013779   4.646554e-07   0.003977
+10             Teacher\_Quality    -0.010520   2.191872e-06   0.003510
+7              Internet\_Access    -0.000532   4.412828e-05   0.002614
+14    Parental\_Education\_Level     0.012913   1.112637e-03   0.001666
+12           Physical\_Activity    -0.011554   4.461342e-02   0.000632
+9                Family\_Income     0.008112   7.047761e-02   0.000513
+6             Motivation\_Level    -0.012348   1.561947e-01   0.000315
+4                  Sleep\_Hours     0.010594   1.703173e-01   0.000295
+11                 School\_Type    -0.012893   3.854988e-01   0.000118
+15                      Gender     0.003920   6.936955e-01   0.000024
+
+    Adj\_R-squared       VIF  T-statistic  F-statistic           AIC  \textbackslash{}
+1        0.336596  1.002926    56.890623  3236.542960  32891.664424
+0        0.197992  1.001827    39.689943  1575.291562  34101.790605
+5        0.030223  1.003285    14.132771   199.735203  35313.278862
+8        0.024442  1.001307    12.679697   160.774705  35351.180193
+2        0.007675  1.003326    -7.093709    50.320703  35459.872237
+13       0.006885  1.002033    -6.724033    45.212618  35464.943930
+3        0.003821  1.000808     5.045584    25.457916  35484.595934
+10       0.003354  1.000999    -4.739229    22.460292  35487.583273
+7        0.002457  1.002028     4.087563    16.708173  35493.319577
+14       0.001509  1.002298     3.261866    10.639768  35499.376896
+12       0.000476  1.004972     2.008678     4.034786  35505.976356
+9        0.000356  1.003210    -1.809132     3.272958  35506.737986
+6        0.000159  1.002270    -1.418154     2.011161  35507.999656
+4        0.000138  1.001995    -1.371340     1.880573  35508.130246
+11      -0.000039  1.002499    -0.867869     0.753196  35509.257743
+15      -0.000133  1.001120    -0.393863     0.155128  35509.855956
+
+             BIC  ANOVA\_Type1\_F  ANOVA\_Type1\_P  ANOVA\_Type2\_F  ANOVA\_Type2\_P  \textbackslash{}
+1   32905.185643    3236.542960   0.000000e+00    3236.542960   0.000000e+00
+0   34115.311825    1575.291562  4.524802e-308    1575.291562  4.524802e-308
+5   35326.800082     199.735203   1.121433e-44     199.735203   1.121433e-44
+8   35364.701412     160.774705   2.102216e-36     160.774705   2.102216e-36
+2   35473.393457      92.416360   2.722170e-40      92.416360   2.722170e-40
+13  35478.465150      45.212618   1.921126e-11      45.212618   1.921126e-11
+3   35498.117154      25.457916   4.646554e-07      25.457916   4.646554e-07
+10  35501.104493      18.597490   8.844704e-09      18.597490   8.844704e-09
+7   35506.840797      16.708173   4.412828e-05      16.708173   4.412828e-05
+14  35512.898116      35.947108   2.990498e-16      35.947108   2.990498e-16
+12  35519.497576       4.034786   4.461342e-02       4.034786   4.461342e-02
+9   35520.259206      28.782492   3.597672e-13      28.782492   3.597672e-13
+6   35521.520876      25.535515   9.000204e-12      25.535515   9.000204e-12
+4   35521.651465       1.880573   1.703173e-01       1.880573   1.703173e-01
+11  35522.778962       0.753196   3.854988e-01       0.753196   3.854988e-01
+15  35523.377176       0.155128   6.936955e-01       0.155128   6.936955e-01
+
+    ANOVA\_Type3\_F  ANOVA\_Type3\_P
+1    3.398701e+04            0.0
+0    1.613659e+05            0.0
+5    6.180827e+04            0.0
+8    7.646139e+05            0.0
+2    5.916635e+05            0.0
+13   1.702976e+06            0.0
+3    7.550905e+05            0.0
+10   5.727176e+05            0.0
+7    1.405650e+05            0.0
+14   5.805053e+05            0.0
+12   1.997981e+05            0.0
+9    3.727122e+05            0.0
+6    3.854527e+05            0.0
+4    7.932091e+04            0.0
+11   5.749512e+05            0.0
+15   7.945274e+05            0.0
+\end{Verbatim}
+\end{tcolorbox}
+        
+    After looking at the \(R^2_{a}\) of exam score regressed onto each
+individual predictor, we're going to naively choose the 6 predictors
+with the strongest \(R^2_{a}\) values to model.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{284}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{selected\PYZus{}predictors} \PY{o}{=} \PY{p}{[}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Attendance}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Hours\PYZus{}Studied}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Previous\PYZus{}Scores}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Tutoring\PYZus{}Sessions}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Access\PYZus{}to\PYZus{}Resources}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Learning\PYZus{}Disabilities}\PY{l+s+s1}{\PYZsq{}}
+\PY{p}{]}
+
+\PY{n}{categorical\PYZus{}predictors} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Access\PYZus{}to\PYZus{}Resources}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Learning\PYZus{}Disabilities}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+
+\PY{n}{X} \PY{o}{=} \PY{n}{students}\PY{p}{[}\PY{n}{selected\PYZus{}predictors}\PY{p}{]}
+\PY{n}{y} \PY{o}{=} \PY{n}{students}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exam\PYZus{}Score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+
+\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}test} \PY{o}{=} \PY{n}{train\PYZus{}test\PYZus{}split}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{test\PYZus{}size}\PY{o}{=}\PY{l+m+mf}{0.3}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{42}\PY{p}{)}
+
+\PY{n}{le} \PY{o}{=} \PY{n}{LabelEncoder}\PY{p}{(}\PY{p}{)}
+\PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n}{categorical\PYZus{}predictors}\PY{p}{:}
+    \PY{n}{X\PYZus{}train}\PY{p}{[}\PY{n}{col}\PY{p}{]} \PY{o}{=} \PY{n}{le}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{p}{)}
+    \PY{n}{X\PYZus{}test}\PY{p}{[}\PY{n}{col}\PY{p}{]} \PY{o}{=} \PY{n}{le}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{p}{)}
+    
+\PY{n}{scaler} \PY{o}{=} \PY{n}{StandardScaler}\PY{p}{(}\PY{p}{)}
+\PY{n}{X\PYZus{}train\PYZus{}scaled} \PY{o}{=} \PY{n}{scaler}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{)}
+\PY{n}{X\PYZus{}test\PYZus{}scaled} \PY{o}{=} \PY{n}{scaler}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}
+
+\PY{n}{X\PYZus{}train\PYZus{}scaled} \PY{o}{=} \PY{n}{sm}\PY{o}{.}\PY{n}{add\PYZus{}constant}\PY{p}{(}\PY{n}{X\PYZus{}train\PYZus{}scaled}\PY{p}{)}  
+\PY{n}{model} \PY{o}{=} \PY{n}{sm}\PY{o}{.}\PY{n}{OLS}\PY{p}{(}\PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}train\PYZus{}scaled}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{model}\PY{o}{.}\PY{n}{summary}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+                            OLS Regression Results
+==============================================================================
+Dep. Variable:             Exam\_Score   R-squared:                       0.596
+Model:                            OLS   Adj. R-squared:                  0.595
+Method:                 Least Squares   F-statistic:                     1095.
+Date:                Sat, 12 Oct 2024   Prob (F-statistic):               0.00
+Time:                        22:32:07   Log-Likelihood:                -10405.
+No. Observations:                4464   AIC:                         2.082e+04
+Df Residuals:                    4457   BIC:                         2.087e+04
+Df Model:                           6
+Covariance Type:            nonrobust
+==============================================================================
+                 coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const         67.2581      0.037   1803.964      0.000      67.185      67.331
+x1             2.2692      0.037     60.806      0.000       2.196       2.342
+x2             1.7525      0.037     46.965      0.000       1.679       1.826
+x3             0.6812      0.037     18.257      0.000       0.608       0.754
+x4             0.5998      0.037     16.081      0.000       0.527       0.673
+x5            -0.3533      0.037     -9.473      0.000      -0.426      -0.280
+x6            -0.2544      0.037     -6.819      0.000      -0.327      -0.181
+==============================================================================
+Omnibus:                     5584.026   Durbin-Watson:                   2.007
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):           879042.429
+Skew:                           6.811   Prob(JB):                         0.00
+Kurtosis:                      70.383   Cond. No.                         1.06
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly
+specified.
+    \end{Verbatim}
+
+    Since the model has a moderate \(R^2_{a}\) value, we want to look at the
+residuals to ensure that none of the model assumptions were violated.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{285}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{X\PYZus{}test\PYZus{}scaled} \PY{o}{=} \PY{n}{sm}\PY{o}{.}\PY{n}{add\PYZus{}constant}\PY{p}{(}\PY{n}{X\PYZus{}test\PYZus{}scaled}\PY{p}{)}  
+\PY{n}{y\PYZus{}pred} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test\PYZus{}scaled}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{286}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}pred}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{n}{colors}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{blue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{.5}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{p}{[}\PY{n}{y\PYZus{}test}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{n}{y\PYZus{}test}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{n}{colors}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Actual Exam Scores}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Predicted Exam Scores}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Actual vs Predicted Exam Scores}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{modeling-student-performance_files/modeling-student-performance_64_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    There are some points that don't align with the rest of the distribution
+and might be influential points.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{287}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{7}\PY{p}{)}\PY{p}{)}
+\PY{n}{influence\PYZus{}plot}\PY{p}{(}\PY{n}{model}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{ax}\PY{p}{,} \PY{n}{criterion}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cooks}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{modeling-student-performance_files/modeling-student-performance_66_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    There are a significant number of influential points so we're going to
+do some transformations on the data.
+
+    \subsection{Box-Cox Transformation}\label{box-cox-transformation}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{288}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{le} \PY{o}{=} \PY{n}{LabelEncoder}\PY{p}{(}\PY{p}{)}
+\PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n}{categorical\PYZus{}predictors}\PY{p}{:}
+    \PY{n}{X}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{n}{col}\PY{p}{]} \PY{o}{=} \PY{n}{le}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{X}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{p}{)} 
+
+\PY{n}{X\PYZus{}boxcox} \PY{o}{=} \PY{n}{X}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{k}{lambda} \PY{n}{x}\PY{p}{:} \PY{n}{stats}\PY{o}{.}\PY{n}{boxcox}\PY{p}{(}\PY{n}{x} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)} 
+\PY{n}{y\PYZus{}boxcox}\PY{p}{,} \PY{n}{fitted\PYZus{}lambda} \PY{o}{=} \PY{n}{stats}\PY{o}{.}\PY{n}{boxcox}\PY{p}{(}\PY{n}{y} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{)}
+
+\PY{n}{scaler} \PY{o}{=} \PY{n}{StandardScaler}\PY{p}{(}\PY{p}{)}
+\PY{n}{X\PYZus{}scaled} \PY{o}{=} \PY{n}{scaler}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{X\PYZus{}boxcox}\PY{p}{)}
+
+\PY{n}{X\PYZus{}const} \PY{o}{=} \PY{n}{sm}\PY{o}{.}\PY{n}{add\PYZus{}constant}\PY{p}{(}\PY{n}{X\PYZus{}scaled}\PY{p}{)}
+\PY{n}{model\PYZus{}boxcox} \PY{o}{=} \PY{n}{sm}\PY{o}{.}\PY{n}{OLS}\PY{p}{(}\PY{n}{y\PYZus{}boxcox}\PY{p}{,} \PY{n}{X\PYZus{}const}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Box\PYZhy{}Cox Transformation Model Summary}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Lambda used for Box\PYZhy{}Cox Transformation: }\PY{l+s+si}{\PYZob{}}\PY{n}{fitted\PYZus{}lambda}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{model\PYZus{}boxcox}\PY{o}{.}\PY{n}{summary}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Box-Cox Transformation Model Summary
+Lambda used for Box-Cox Transformation: -2.6806950740503064
+                            OLS Regression Results
+==============================================================================
+Dep. Variable:                      y   R-squared:                       0.719
+Model:                            OLS   Adj. R-squared:                  0.719
+Method:                 Least Squares   F-statistic:                     2718.
+Date:                Sat, 12 Oct 2024   Prob (F-statistic):               0.00
+Time:                        22:32:23   Log-Likelihood:                 85842.
+No. Observations:                6378   AIC:                        -1.717e+05
+Df Residuals:                    6371   BIC:                        -1.716e+05
+Df Model:                           6
+Covariance Type:            nonrobust
+==============================================================================
+                 coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const          0.3730   4.33e-09   8.62e+07      0.000       0.373       0.373
+x1          4.152e-07   4.33e-09     95.841      0.000    4.07e-07    4.24e-07
+x2          3.166e-07   4.33e-09     73.077      0.000    3.08e-07    3.25e-07
+x3           1.24e-07   4.33e-09     28.624      0.000    1.16e-07    1.33e-07
+x4          1.099e-07   4.33e-09     25.381      0.000    1.01e-07    1.18e-07
+x5         -5.522e-08   4.33e-09    -12.752      0.000   -6.37e-08   -4.67e-08
+x6         -5.117e-08   4.33e-09    -11.813      0.000   -5.97e-08   -4.27e-08
+==============================================================================
+Omnibus:                     4676.971   Durbin-Watson:                   1.986
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):           183625.672
+Skew:                           3.079   Prob(JB):                         0.00
+Kurtosis:                      28.555   Cond. No.                         1.04
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly
+specified.
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/var/folders/bn/8l9zg4092yg1r262fl2zn9nw0000gn/T/ipykernel\_4079/2231151566.py:3:
+FutureWarning: Setting an item of incompatible dtype is deprecated and will
+raise in a future error of pandas. Value '[0 2 2 {\ldots} 1 0 1]' has dtype
+incompatible with category, please explicitly cast to a compatible dtype first.
+/var/folders/bn/8l9zg4092yg1r262fl2zn9nw0000gn/T/ipykernel\_4079/2231151566.py:3:
+FutureWarning: Setting an item of incompatible dtype is deprecated and will
+raise in a future error of pandas. Value '[0 0 0 {\ldots} 0 0 0]' has dtype
+incompatible with category, please explicitly cast to a compatible dtype first.
+    \end{Verbatim}
+
+    The \(R^2\) has improved so now we'll see how the residuals have
+changed.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{289}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{y\PYZus{}pred\PYZus{}boxcox} \PY{o}{=} \PY{n}{model\PYZus{}boxcox}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}const}\PY{p}{)}
+\PY{n}{residuals} \PY{o}{=} \PY{n}{y\PYZus{}boxcox} \PY{o}{\PYZhy{}} \PY{n}{y\PYZus{}pred\PYZus{}boxcox}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{290}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+\PY{n}{sns}\PY{o}{.}\PY{n}{scatterplot}\PY{p}{(}\PY{n}{x}\PY{o}{=}\PY{n}{y\PYZus{}pred\PYZus{}boxcox}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{residuals}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{n}{colors}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{blue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axhline}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{n}{colors}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Residuals vs Predicted Values}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Predicted Values}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Residuals}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{modeling-student-performance_files/modeling-student-performance_72_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    There still seems to be a significant amount of data that's falling
+outside the expected bounds of the data so we'll try including more
+predictors and splitting the data into multiple models.
+
+    \subsection{Splitting the Data Into 2
+Models}\label{splitting-the-data-into-2-models}
+
+    \subsubsection{Set Up}\label{set-up}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{291}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{high\PYZus{}scores} \PY{o}{=} \PY{n}{students}\PY{p}{[}\PY{n}{students}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exam\PYZus{}Score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{l+m+mi}{80}\PY{p}{]}\PY{o}{.}\PY{n}{reset\PYZus{}index}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{index}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{low\PYZus{}scores} \PY{o}{=} \PY{n}{students}\PY{p}{[}\PY{n}{students}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exam\PYZus{}Score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZlt{}} \PY{l+m+mi}{80}\PY{p}{]}\PY{o}{.}\PY{n}{reset\PYZus{}index}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{index}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{There are }\PY{l+s+si}{\PYZob{}}\PY{n+nb}{len}\PY{p}{(}\PY{n}{low\PYZus{}scores}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ rows within the low scores dataset.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{There are }\PY{l+s+si}{\PYZob{}}\PY{n+nb}{len}\PY{p}{(}\PY{n}{high\PYZus{}scores}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ rows within the high scores dataset.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+There are 6330 rows within the low scores dataset.
+There are 48 rows within the high scores dataset.
+    \end{Verbatim}
+
+    After creating two new datasets, we're going to use those datasets to
+make training and test datasets for each model.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{292}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{train\PYZus{}high}\PY{p}{,} \PY{n}{test\PYZus{}high} \PY{o}{=} \PY{n}{train\PYZus{}test\PYZus{}split}\PY{p}{(}\PY{n}{high\PYZus{}scores}\PY{p}{,} \PY{n}{test\PYZus{}size}\PY{o}{=}\PY{l+m+mf}{0.2}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{42}\PY{p}{)}
+\PY{n}{train\PYZus{}low}\PY{p}{,} \PY{n}{test\PYZus{}low} \PY{o}{=} \PY{n}{train\PYZus{}test\PYZus{}split}\PY{p}{(}\PY{n}{low\PYZus{}scores}\PY{p}{,} \PY{n}{test\PYZus{}size}\PY{o}{=}\PY{l+m+mf}{0.2}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{42}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{There are }\PY{l+s+si}{\PYZob{}}\PY{n+nb}{len}\PY{p}{(}\PY{n}{train\PYZus{}low}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ rows within the low scores training dataset.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{There are }\PY{l+s+si}{\PYZob{}}\PY{n+nb}{len}\PY{p}{(}\PY{n}{train\PYZus{}high}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ rows within the high scores training dataset.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+There are 5064 rows within the low scores training dataset.
+There are 38 rows within the high scores training dataset.
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{293}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{X\PYZus{}train\PYZus{}high} \PY{o}{=} \PY{n}{train\PYZus{}high}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exam\PYZus{}Score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{axis}\PY{o}{=} \PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{y\PYZus{}train\PYZus{}high} \PY{o}{=} \PY{n}{train\PYZus{}high}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exam\PYZus{}Score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+
+\PY{n}{X\PYZus{}test\PYZus{}high} \PY{o}{=} \PY{n}{test\PYZus{}high}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exam\PYZus{}Score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{axis}\PY{o}{=} \PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{y\PYZus{}test\PYZus{}high} \PY{o}{=} \PY{n}{test\PYZus{}high}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exam\PYZus{}Score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+
+\PY{n}{X\PYZus{}train\PYZus{}low} \PY{o}{=} \PY{n}{train\PYZus{}low}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exam\PYZus{}Score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{axis}\PY{o}{=} \PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{y\PYZus{}train\PYZus{}low} \PY{o}{=} \PY{n}{train\PYZus{}low}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exam\PYZus{}Score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+
+\PY{n}{X\PYZus{}test\PYZus{}low} \PY{o}{=} \PY{n}{test\PYZus{}low}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exam\PYZus{}Score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{axis}\PY{o}{=} \PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{y\PYZus{}test\PYZus{}low} \PY{o}{=} \PY{n}{test\PYZus{}low}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exam\PYZus{}Score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{294}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{categorical\PYZus{}cols1} \PY{o}{=} \PY{n}{X\PYZus{}train\PYZus{}high}\PY{o}{.}\PY{n}{select\PYZus{}dtypes}\PY{p}{(}\PY{n}{include}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{object}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{category}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{columns}
+\PY{n}{numerical\PYZus{}cols1} \PY{o}{=} \PY{n}{X\PYZus{}train\PYZus{}high}\PY{o}{.}\PY{n}{select\PYZus{}dtypes}\PY{p}{(}\PY{n}{include}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{int64}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{float64}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{columns}
+
+\PY{n}{categorical\PYZus{}cols2} \PY{o}{=} \PY{n}{X\PYZus{}test\PYZus{}high}\PY{o}{.}\PY{n}{select\PYZus{}dtypes}\PY{p}{(}\PY{n}{include}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{object}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{category}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{columns}
+\PY{n}{numerical\PYZus{}cols2} \PY{o}{=} \PY{n}{X\PYZus{}test\PYZus{}high}\PY{o}{.}\PY{n}{select\PYZus{}dtypes}\PY{p}{(}\PY{n}{include}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{int64}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{float64}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{columns}
+
+\PY{n}{categorical\PYZus{}cols3} \PY{o}{=} \PY{n}{X\PYZus{}train\PYZus{}low}\PY{o}{.}\PY{n}{select\PYZus{}dtypes}\PY{p}{(}\PY{n}{include}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{object}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{category}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{columns}
+\PY{n}{numerical\PYZus{}cols3} \PY{o}{=} \PY{n}{X\PYZus{}train\PYZus{}low}\PY{o}{.}\PY{n}{select\PYZus{}dtypes}\PY{p}{(}\PY{n}{include}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{int64}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{float64}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{columns}
+
+\PY{n}{categorical\PYZus{}cols4} \PY{o}{=} \PY{n}{X\PYZus{}test\PYZus{}low}\PY{o}{.}\PY{n}{select\PYZus{}dtypes}\PY{p}{(}\PY{n}{include}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{object}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{category}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{columns}
+\PY{n}{numerical\PYZus{}cols4} \PY{o}{=} \PY{n}{X\PYZus{}test\PYZus{}low}\PY{o}{.}\PY{n}{select\PYZus{}dtypes}\PY{p}{(}\PY{n}{include}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{int64}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{float64}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{columns}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{295}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{preprocessor\PYZus{}train\PYZus{}high} \PY{o}{=} \PY{n}{ColumnTransformer}\PY{p}{(}
+    \PY{n}{transformers}\PY{o}{=}\PY{p}{[}
+        \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{num}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{StandardScaler}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{numerical\PYZus{}cols1}\PY{p}{)}\PY{p}{,}
+        \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{cat}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{OneHotEncoder}\PY{p}{(}\PY{n}{drop}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{first}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,} \PY{n}{categorical\PYZus{}cols1}\PY{p}{)}  \PY{c+c1}{\PYZsh{} drop=\PYZsq{}first\PYZsq{} avoids dummy variable trap}
+    \PY{p}{]}
+\PY{p}{)}
+
+\PY{n}{preprocessor\PYZus{}test\PYZus{}high} \PY{o}{=} \PY{n}{ColumnTransformer}\PY{p}{(}
+    \PY{n}{transformers}\PY{o}{=}\PY{p}{[}
+        \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{num}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{StandardScaler}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{numerical\PYZus{}cols2}\PY{p}{)}\PY{p}{,}
+        \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{cat}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{OneHotEncoder}\PY{p}{(}\PY{n}{drop}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{first}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,} \PY{n}{categorical\PYZus{}cols2}\PY{p}{)}  \PY{c+c1}{\PYZsh{} drop=\PYZsq{}first\PYZsq{} avoids dummy variable trap}
+    \PY{p}{]}
+\PY{p}{)}
+\PY{n}{preprocessor\PYZus{}train\PYZus{}low} \PY{o}{=} \PY{n}{ColumnTransformer}\PY{p}{(}
+    \PY{n}{transformers}\PY{o}{=}\PY{p}{[}
+        \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{num}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{StandardScaler}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{numerical\PYZus{}cols3}\PY{p}{)}\PY{p}{,}
+        \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{cat}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{OneHotEncoder}\PY{p}{(}\PY{n}{drop}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{first}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,} \PY{n}{categorical\PYZus{}cols3}\PY{p}{)}  \PY{c+c1}{\PYZsh{} drop=\PYZsq{}first\PYZsq{} avoids dummy variable trap}
+    \PY{p}{]}
+\PY{p}{)}
+
+\PY{n}{preprocessor\PYZus{}test\PYZus{}low} \PY{o}{=} \PY{n}{ColumnTransformer}\PY{p}{(}
+    \PY{n}{transformers}\PY{o}{=}\PY{p}{[}
+        \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{num}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{StandardScaler}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{numerical\PYZus{}cols4}\PY{p}{)}\PY{p}{,}
+        \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{cat}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{OneHotEncoder}\PY{p}{(}\PY{n}{drop}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{first}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,} \PY{n}{categorical\PYZus{}cols4}\PY{p}{)}  \PY{c+c1}{\PYZsh{} drop=\PYZsq{}first\PYZsq{} avoids dummy variable trap}
+    \PY{p}{]}
+\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \subsection{Low Model}\label{low-model}
+
+    Students who scored 80 or lower on their exam.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{296}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{lasso\PYZus{}pipeline} \PY{o}{=} \PY{n}{Pipeline}\PY{p}{(}\PY{n}{steps}\PY{o}{=}\PY{p}{[}
+    \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{preprocessor}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{preprocessor\PYZus{}train\PYZus{}low}\PY{p}{)}\PY{p}{,}
+    \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{lasso}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{Lasso}\PY{p}{(}\PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.1}\PY{p}{)}\PY{p}{)}  \PY{c+c1}{\PYZsh{} You can adjust alpha for regularization}
+\PY{p}{]}\PY{p}{)}
+
+\PY{n}{lasso\PYZus{}pipeline}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train\PYZus{}low}\PY{p}{,} \PY{n}{y\PYZus{}train\PYZus{}low}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{296}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Pipeline(steps=[('preprocessor',
+                 ColumnTransformer(transformers=[('num', StandardScaler(),
+                                                  Index(['Hours\_Studied',
+'Attendance', 'Sleep\_Hours', 'Previous\_Scores',
+       'Tutoring\_Sessions', 'Physical\_Activity'],
+      dtype='object')),
+                                                 ('cat',
+                                                  OneHotEncoder(drop='first'),
+                                                  Index(['Access\_to\_Resources',
+'Extracurricular\_Activities', 'Motivation\_Level',
+       'Internet\_Access', 'Family\_Income', 'Teacher\_Quality', 'School\_Type',
+       'Learning\_Disabilities', 'Parental\_Education\_Level', 'Gender'],
+      dtype='object'))])),
+                ('lasso', Lasso(alpha=0.1))])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{297}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{encoded\PYZus{}categorical\PYZus{}names} \PY{o}{=} \PY{n}{lasso\PYZus{}pipeline}\PY{o}{.}\PY{n}{named\PYZus{}steps}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{preprocessor}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PYZbs{}
+    \PY{o}{.}\PY{n}{transformers\PYZus{}}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{get\PYZus{}feature\PYZus{}names\PYZus{}out}\PY{p}{(}\PY{n}{categorical\PYZus{}cols1}\PY{p}{)}
+
+\PY{n}{all\PYZus{}feature\PYZus{}names} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n}{numerical\PYZus{}cols1}\PY{p}{)} \PY{o}{+} \PY{n+nb}{list}\PY{p}{(}\PY{n}{encoded\PYZus{}categorical\PYZus{}names}\PY{p}{)}
+
+\PY{n}{lasso\PYZus{}coefficients} \PY{o}{=} \PY{n}{lasso\PYZus{}pipeline}\PY{o}{.}\PY{n}{named\PYZus{}steps}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{lasso}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{coef\PYZus{}}
+
+\PY{n}{selected\PYZus{}features} \PY{o}{=} \PY{p}{[}\PY{n}{name} \PY{k}{for} \PY{n}{name}\PY{p}{,} \PY{n}{coef} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{n}{all\PYZus{}feature\PYZus{}names}\PY{p}{,} \PY{n}{lasso\PYZus{}coefficients}\PY{p}{)} \PY{k}{if} \PY{n}{coef} \PY{o}{!=} \PY{l+m+mi}{0}\PY{p}{]}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Selected predictors: }\PY{l+s+si}{\PYZob{}}\PY{n}{selected\PYZus{}features}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Selected predictors: ['Hours\_Studied', 'Attendance', 'Previous\_Scores',
+'Tutoring\_Sessions', 'Physical\_Activity', 'Access\_to\_Resources\_Low',
+'Access\_to\_Resources\_Medium', 'Extracurricular\_Activities\_Yes',
+'Motivation\_Level\_Low', 'Family\_Income\_Low', 'Parental\_Education\_Level\_High
+School', 'Parental\_Education\_Level\_Postgraduate']
+    \end{Verbatim}
+
+    We let the lasso modeling tool pick the predictors to use. We then
+dropped all other predictors from the model.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{298}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{x\PYZus{}lasso\PYZus{}train\PYZus{}low} \PY{o}{=} \PY{n}{X\PYZus{}train\PYZus{}low}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sleep\PYZus{}Hours}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                                                \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Internet\PYZus{}Access}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                                                \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Teacher\PYZus{}Quality}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                                                \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{School\PYZus{}Type}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                                                \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Learning\PYZus{}Disabilities}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                                                \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Gender}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{y\PYZus{}lasso\PYZus{}train} \PY{o}{=} \PY{n}{y\PYZus{}train\PYZus{}low}
+\PY{n}{formula} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exam\PYZus{}Score \PYZti{} }\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ + }\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{x\PYZus{}lasso\PYZus{}train\PYZus{}low}\PY{o}{.}\PY{n}{columns}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \subsubsection{Summarizing the model with the low score
+dataset:}\label{summarizing-the-model-with-the-low-score-dataset}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{299}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{lasso\PYZus{}model\PYZus{}low} \PY{o}{=} \PY{n}{smf}\PY{o}{.}\PY{n}{ols}\PY{p}{(}\PY{n}{formula}\PY{o}{=} \PY{n}{formula}\PY{p}{,} \PY{n}{data} \PY{o}{=} \PY{n}{train\PYZus{}low}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{p}{)}
+\PY{n}{lasso\PYZus{}model\PYZus{}low}\PY{o}{.}\PY{n}{summary}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+ 
+            
+\prompt{Out}{outcolor}{299}{}
+    
+    \begin{center}
+\begin{tabular}{lclc}
+\toprule
+\textbf{Dep. Variable:}                             &   Exam\_Score    & \textbf{  R-squared:         } &     0.898   \\
+\textbf{Model:}                                     &       OLS        & \textbf{  Adj. R-squared:    } &     0.898   \\
+\textbf{Method:}                                    &  Least Squares   & \textbf{  F-statistic:       } &     3183.   \\
+\textbf{Date:}                                      & Sat, 12 Oct 2024 & \textbf{  Prob (F-statistic):} &     0.00    \\
+\textbf{Time:}                                      &     22:32:24     & \textbf{  Log-Likelihood:    } &   -7540.9   \\
+\textbf{No. Observations:}                          &        5064      & \textbf{  AIC:               } & 1.511e+04   \\
+\textbf{Df Residuals:}                              &        5049      & \textbf{  BIC:               } & 1.521e+04   \\
+\textbf{Df Model:}                                  &          14      & \textbf{                     } &             \\
+\textbf{Covariance Type:}                           &    nonrobust     & \textbf{                     } &             \\
+\bottomrule
+\end{tabular}
+\begin{tabular}{lcccccc}
+                                                    & \textbf{coef} & \textbf{std err} & \textbf{t} & \textbf{P$> |$t$|$} & \textbf{[0.025} & \textbf{0.975]}  \\
+\midrule
+\textbf{Intercept}                                  &      42.0979  &        0.158     &   266.026  &         0.000        &       41.788    &       42.408     \\
+\textbf{Access\_to\_Resources[T.Low]}               &      -1.9372  &        0.044     &   -44.274  &         0.000        &       -2.023    &       -1.851     \\
+\textbf{Access\_to\_Resources[T.Medium]}            &      -0.9681  &        0.035     &   -27.774  &         0.000        &       -1.036    &       -0.900     \\
+\textbf{Extracurricular\_Activities[T.Yes]}         &       0.4688  &        0.031     &    15.212  &         0.000        &        0.408    &        0.529     \\
+\textbf{Motivation\_Level[T.Low]}                   &      -0.9550  &        0.044     &   -21.845  &         0.000        &       -1.041    &       -0.869     \\
+\textbf{Motivation\_Level[T.Medium]}                &      -0.4403  &        0.040     &   -11.040  &         0.000        &       -0.519    &       -0.362     \\
+\textbf{Family\_Income[T.Low]}                      &      -1.0166  &        0.042     &   -24.447  &         0.000        &       -1.098    &       -0.935     \\
+\textbf{Family\_Income[T.Medium]}                   &      -0.4775  &        0.042     &   -11.470  &         0.000        &       -0.559    &       -0.396     \\
+\textbf{Parental\_Education\_Level[T.High School]}  &      -0.4723  &        0.035     &   -13.593  &         0.000        &       -0.540    &       -0.404     \\
+\textbf{Parental\_Education\_Level[T.Postgraduate]} &       0.5296  &        0.043     &    12.201  &         0.000        &        0.444    &        0.615     \\
+\textbf{Hours\_Studied}                             &       0.2976  &        0.003     &   117.166  &         0.000        &        0.293    &        0.303     \\
+\textbf{Attendance}                                 &       0.1991  &        0.001     &   152.018  &         0.000        &        0.196    &        0.202     \\
+\textbf{Previous\_Scores}                           &       0.0470  &        0.001     &    44.784  &         0.000        &        0.045    &        0.049     \\
+\textbf{Tutoring\_Sessions}                         &       0.4998  &        0.012     &    40.552  &         0.000        &        0.476    &        0.524     \\
+\textbf{Physical\_Activity}                         &       0.2205  &        0.015     &    14.948  &         0.000        &        0.192    &        0.249     \\
+\bottomrule
+\end{tabular}
+\begin{tabular}{lclc}
+\textbf{Omnibus:}       & 872.171 & \textbf{  Durbin-Watson:     } &     1.966  \\
+\textbf{Prob(Omnibus):} &   0.000 & \textbf{  Jarque-Bera (JB):  } & 13229.088  \\
+\textbf{Skew:}          &   0.352 & \textbf{  Prob(JB):          } &      0.00  \\
+\textbf{Kurtosis:}      &  10.887 & \textbf{  Cond. No.          } &  1.19e+03  \\
+\bottomrule
+\end{tabular}
+%\caption{OLS Regression Results}
+\end{center}
+
+Notes: \newline
+ [1] Standard Errors assume that the covariance matrix of the errors is correctly specified. \newline
+ [2] The condition number is large, 1.19e+03. This might indicate that there are \newline
+ strong multicollinearity or other numerical problems.
+
+    
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{300}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{data} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{\PYZob{}}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Fitted\PYZus{}Values}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{lasso\PYZus{}model\PYZus{}low}\PY{o}{.}\PY{n}{fittedvalues}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Residuals}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{lasso\PYZus{}model\PYZus{}low}\PY{o}{.}\PY{n}{resid}
+\PY{p}{\PYZcb{}}\PY{p}{)}
+
+\PY{n}{residual\PYZus{}plot} \PY{o}{=} \PY{p}{(}
+    \PY{n}{ggplot}\PY{p}{(}\PY{n}{data}\PY{p}{,} \PY{n}{aes}\PY{p}{(}\PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Fitted\PYZus{}Values}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Residuals}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)} \PY{o}{+}
+    \PY{n}{geom\PYZus{}point}\PY{p}{(}\PY{n}{color} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZsh{}838ceb}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{o}{+}  \PY{c+c1}{\PYZsh{} Scatter plot of points}
+    \PY{n}{geom\PYZus{}smooth}\PY{p}{(}\PY{n}{method}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{loess}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{grey}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{se}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,} \PY{n}{linetype}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{solid}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{o}{+}  \PY{c+c1}{\PYZsh{} LOWESS line}
+    \PY{n}{geom\PYZus{}hline}\PY{p}{(}\PY{n}{yintercept}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{linetype}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dashed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{o}{+}  \PY{c+c1}{\PYZsh{} Horizontal line at y=0}
+    \PY{n}{labs}\PY{p}{(}\PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Fitted Values}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Residuals}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Linearity Check: Fitted Values vs Residuals}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{o}{+}
+    \PY{n}{theme\PYZus{}minimal}\PY{p}{(}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Set the figure size}
+\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{residual\PYZus{}plot}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/var/folders/bn/8l9zg4092yg1r262fl2zn9nw0000gn/T/ipykernel\_4079/3866888096.py:15
+: FutureWarning: Using print(plot) to draw and show the plot figure is
+deprecated and will be removed in a future version. Use plot.show().
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{modeling-student-performance_files/modeling-student-performance_90_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+    \end{Verbatim}
+
+    After plotting the fitted values against the residual values, most of
+the data falls in the expected region which a few outliers visible.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{301}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{low\PYZus{}residuals} \PY{o}{=} \PY{n}{lasso\PYZus{}model\PYZus{}low}\PY{o}{.}\PY{n}{resid}
+
+\PY{n}{quantiles} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{percentile}\PY{p}{(}\PY{n}{low\PYZus{}residuals}\PY{p}{,} \PY{p}{[}\PY{n}{i} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{101}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+\PY{n}{theoretical\PYZus{}quantiles} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{percentile}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{normal}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1000}\PY{p}{)}\PY{p}{,} \PY{p}{[}\PY{n}{i} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{101}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+
+\PY{n}{qq\PYZus{}data} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{\PYZob{}}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Theoretical Quantiles}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{theoretical\PYZus{}quantiles}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sample Quantiles}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{quantiles}
+\PY{p}{\PYZcb{}}\PY{p}{)}
+
+\PY{n}{gg} \PY{o}{=} \PY{p}{(}\PY{n}{ggplot}\PY{p}{(}\PY{n}{qq\PYZus{}data}\PY{p}{,} \PY{n}{aes}\PY{p}{(}\PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Theoretical Quantiles}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sample Quantiles}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)} \PY{o}{+}
+      \PY{n}{geom\PYZus{}point}\PY{p}{(}\PY{n}{color} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZsh{}838ceb}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{o}{+}
+      \PY{n}{geom\PYZus{}abline}\PY{p}{(}\PY{n}{slope}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{intercept}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsh{}373f8a}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{o}{+}
+      \PY{n}{labs}\PY{p}{(}\PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Normality Check: Q\PYZhy{}Q Plot of Residuals}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+           \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Theoretical Quantiles}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+           \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sample Quantiles}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{o}{+}
+      \PY{n}{theme\PYZus{}minimal}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+      
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{gg}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/var/folders/bn/8l9zg4092yg1r262fl2zn9nw0000gn/T/ipykernel\_4079/2675193875.py:19
+: FutureWarning: Using print(plot) to draw and show the plot figure is
+deprecated and will be removed in a future version. Use plot.show().
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{modeling-student-performance_files/modeling-student-performance_92_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+    \end{Verbatim}
+
+    After doing the QQ plot of the residuals, most of the data falls on the
+line which a few outliers visible.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{302}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{predictors\PYZus{}to\PYZus{}drop} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Access\PYZus{}to\PYZus{}Resources}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Extracurricular\PYZus{}Activities}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+                       \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Family\PYZus{}Income}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Motivation\PYZus{}Level}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Parental\PYZus{}Education\PYZus{}Level}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+
+\PY{n}{train\PYZus{}long} \PY{o}{=} \PY{n}{train\PYZus{}low}\PY{o}{.}\PY{n}{melt}\PY{p}{(}\PY{n}{id\PYZus{}vars}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exam\PYZus{}Score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{value\PYZus{}vars}\PY{o}{=}\PY{n}{x\PYZus{}lasso\PYZus{}train\PYZus{}low}\PY{o}{.}\PY{n}{columns}\PY{p}{,}
+                             \PY{n}{var\PYZus{}name}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Predictor}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{value\PYZus{}name}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{train\PYZus{}long\PYZus{}filtered} \PY{o}{=} \PY{n}{train\PYZus{}long}\PY{p}{[}\PY{o}{\PYZti{}}\PY{n}{train\PYZus{}long}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Predictor}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{isin}\PY{p}{(}\PY{n}{predictors\PYZus{}to\PYZus{}drop}\PY{p}{)}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    For the purposes of graphing scatter plots, we temporarily dropped the
+categorical data.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{303}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{gg} \PY{o}{=} \PY{p}{(}\PY{n}{ggplot}\PY{p}{(}\PY{n}{train\PYZus{}long\PYZus{}filtered}\PY{p}{,} \PY{n}{aes}\PY{p}{(}\PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exam\PYZus{}Score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)} \PY{o}{+}
+              \PY{n}{geom\PYZus{}point}\PY{p}{(}\PY{n}{color}\PY{o}{=}\PY{n}{colors}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{purple}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.6}\PY{p}{)} \PY{o}{+}  \PY{c+c1}{\PYZsh{} Scatter plot with some transparency}
+              \PY{n}{facet\PYZus{}wrap}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZti{}Predictor}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{nrow}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{scales}\PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{free}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{o}{+}  \PY{c+c1}{\PYZsh{} Create a grid layout with 2 rows}
+              \PY{n}{labs}\PY{p}{(}\PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Scatter Plots of Predictors vs. Exam Score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                   \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Predictor Value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                   \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exam Score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{o}{+}
+              \PY{n}{theme\PYZus{}minimal}\PY{p}{(}\PY{p}{)} \PY{o}{+}  \PY{c+c1}{\PYZsh{} Clean minimal theme}
+              \PY{n}{theme}\PY{p}{(}
+                  \PY{n}{axis\PYZus{}text\PYZus{}x}\PY{o}{=}\PY{n}{element\PYZus{}blank}\PY{p}{(}\PY{p}{)}\PY{p}{,}  
+                  \PY{n}{panel\PYZus{}grid\PYZus{}major}\PY{o}{=}\PY{n}{element\PYZus{}blank}\PY{p}{(}\PY{p}{)}\PY{p}{,}  
+                  \PY{n}{panel\PYZus{}grid\PYZus{}minor}\PY{o}{=}\PY{n}{element\PYZus{}blank}\PY{p}{(}\PY{p}{)}\PY{p}{,}  
+                  \PY{n}{subplots\PYZus{}adjust}\PY{o}{=}\PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{top}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mf}{0.9}\PY{p}{\PYZcb{}}\PY{p}{,}  
+                  \PY{n}{panel\PYZus{}spacing} \PY{o}{=} \PY{l+m+mf}{0.005}
+              \PY{p}{)}
+\PY{p}{)}
+\PY{n}{gg}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/opt/homebrew/anaconda3/lib/python3.12/site-
+packages/plotnine/themes/themeable.py:2419: FutureWarning: You no longer need to
+use subplots\_adjust to make space for the legend or text around the panels. This
+paramater will be removed in a future version. You can still use 'plot\_margin'
+'panel\_spacing' for your other spacing needs.
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{modeling-student-performance_files/modeling-student-performance_96_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{304}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{X\PYZus{}encoded} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{get\PYZus{}dummies}\PY{p}{(}\PY{n}{x\PYZus{}lasso\PYZus{}train\PYZus{}low}\PY{p}{,} \PY{n}{drop\PYZus{}first}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{correlation\PYZus{}matrix} \PY{o}{=} \PY{n}{X\PYZus{}encoded}\PY{o}{.}\PY{n}{corr}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{p}{)}
+\PY{n}{sns}\PY{o}{.}\PY{n}{heatmap}\PY{p}{(}\PY{n}{correlation\PYZus{}matrix}\PY{p}{,} \PY{n}{annot}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{fmt}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{.2f}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{cmap}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Purples}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{square}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{cbar}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Correlation Matrix Heatmap}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xticks}\PY{p}{(}\PY{n}{rotation}\PY{o}{=}\PY{l+m+mi}{45}\PY{p}{,} \PY{n}{ha}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{right}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{modeling-student-performance_files/modeling-student-performance_97_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    All of the graphs look good but there are some clear outliers so let's
+determine how many influential points are in the low score dataset.
+
+    \subsection{Influential Points in the Low Score
+Model}\label{influential-points-in-the-low-score-model}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{346}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{influence} \PY{o}{=} \PY{n}{OLSInfluence}\PY{p}{(}\PY{n}{lasso\PYZus{}model\PYZus{}low}\PY{p}{)}
+
+\PY{n}{leverage} \PY{o}{=} \PY{n}{influence}\PY{o}{.}\PY{n}{hat\PYZus{}matrix\PYZus{}diag}
+\PY{n}{cooks\PYZus{}distance} \PY{o}{=} \PY{n}{influence}\PY{o}{.}\PY{n}{cooks\PYZus{}distance}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+\PY{n}{studentized\PYZus{}residuals} \PY{o}{=} \PY{n}{influence}\PY{o}{.}\PY{n}{resid\PYZus{}studentized\PYZus{}internal}
+
+\PY{n}{influence\PYZus{}data} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{\PYZob{}}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Index}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{train\PYZus{}low}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Leverage}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{leverage}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Cook}\PY{l+s+se}{\PYZbs{}\PYZsq{}}\PY{l+s+s1}{s Distance}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{cooks\PYZus{}distance}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Studentized Residual}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{studentized\PYZus{}residuals}
+\PY{p}{\PYZcb{}}\PY{p}{)}
+
+\PY{n}{influence\PYZus{}data\PYZus{}sorted} \PY{o}{=} \PY{n}{influence\PYZus{}data}\PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{n}{by}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Leverage}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Cook}\PY{l+s+se}{\PYZbs{}\PYZsq{}}\PY{l+s+s1}{s Distance}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Studentized Residual}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{ascending}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+
+\PY{n}{top\PYZus{}3\PYZus{}influence} \PY{o}{=} \PY{n}{influence\PYZus{}data\PYZus{}sorted}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{)}
+
+\PY{n}{top\PYZus{}3\PYZus{}influence}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{346}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+      Index  Leverage  Cook's Distance  Studentized Residual
+5611   5043  0.007464     5.039074e-07             -0.031705
+3731     53  0.006856     4.598461e-04             -0.999592
+3717   1002  0.006809     5.532396e-04              1.100212
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{327}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{influence\PYZus{}data} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{\PYZob{}}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Index}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{train\PYZus{}low}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Leverage}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{leverage}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Cook}\PY{l+s+se}{\PYZbs{}\PYZsq{}}\PY{l+s+s1}{s Distance}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{cooks\PYZus{}distance}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Studentized Residual}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{studentized\PYZus{}residuals}
+\PY{p}{\PYZcb{}}\PY{p}{)}
+
+\PY{n}{df\PYZus{}melted} \PY{o}{=} \PY{n}{influence\PYZus{}data}\PY{o}{.}\PY{n}{melt}\PY{p}{(}\PY{n}{id\PYZus{}vars}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Index}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+                     \PY{n}{value\PYZus{}vars}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Leverage}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Cook}\PY{l+s+se}{\PYZbs{}\PYZsq{}}\PY{l+s+s1}{s Distance}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Studentized Residual}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} 
+                     \PY{n}{var\PYZus{}name}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Metric}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+                     \PY{n}{value\PYZus{}name}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{ggplot}\PY{p}{(}\PY{n}{df\PYZus{}melted}\PY{p}{,} \PY{n}{aes}\PY{p}{(}\PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Index}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)} \PY{o}{+} \PYZbs{}
+    \PY{n}{geom\PYZus{}point}\PY{p}{(}\PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsh{}838ceb}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.6}\PY{p}{)} \PY{o}{+} \PYZbs{}
+    \PY{n}{facet\PYZus{}wrap}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZti{}Metric}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{scales}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{free\PYZus{}y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{ncol}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)} \PY{o}{+} \PYZbs{}
+    \PY{n}{labs}\PY{p}{(}\PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Influence Metrics for All Observations}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+         \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Observation Index}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+         \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{o}{+} \PYZbs{}
+    \PY{n}{theme\PYZus{}minimal}\PY{p}{(}\PY{p}{)} \PY{o}{+} \PYZbs{}
+    \PY{n}{theme}\PY{p}{(}
+        \PY{n}{figure\PYZus{}size}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{15}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{,}  
+        \PY{n}{panel\PYZus{}spacing}\PY{o}{=}\PY{l+m+mf}{0.025}\PY{p}{,}
+        \PY{n}{panel\PYZus{}grid\PYZus{}major}\PY{o}{=}\PY{n}{element\PYZus{}blank}\PY{p}{(}\PY{p}{)}\PY{p}{,}  
+        \PY{n}{panel\PYZus{}grid\PYZus{}minor}\PY{o}{=}\PY{n}{element\PYZus{}blank}\PY{p}{(}\PY{p}{)}  
+    \PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{modeling-student-performance_files/modeling-student-performance_101_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{328}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{colors}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{custom\PYZus{}purples}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{328}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+['\#c2c7f2', '\#959cdb', '\#838ceb', '\#6973db', '\#4a54b5']
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{329}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{numeric\PYZus{}columns} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Hours\PYZus{}Studied}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Attendance}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sleep\PYZus{}Hours}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Previous\PYZus{}Scores}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exam\PYZus{}Score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+
+\PY{n}{train\PYZus{}low\PYZus{}melted} \PY{o}{=} \PY{n}{train\PYZus{}low}\PY{p}{[}\PY{n}{numeric\PYZus{}columns}\PY{p}{]}\PY{o}{.}\PY{n}{melt}\PY{p}{(}\PY{n}{var\PYZus{}name}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Feature}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{value\PYZus{}name}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+
+
+\PY{c+c1}{\PYZsh{} Create the boxplot using plotnine with multiple color shades}
+\PY{n}{ggplot}\PY{p}{(}\PY{n}{train\PYZus{}low\PYZus{}melted}\PY{p}{,} \PY{n}{aes}\PY{p}{(}\PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Feature}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fill}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Feature}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)} \PY{o}{+} \PYZbs{}
+    \PY{n}{geom\PYZus{}boxplot}\PY{p}{(}\PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsh{}4B0082}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{o}{+} \PYZbs{}
+    \PY{n}{scale\PYZus{}fill\PYZus{}manual}\PY{p}{(}\PY{n}{values}\PY{o}{=}\PY{n}{colors}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{custom\PYZus{}purples}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)} \PY{o}{+} \PYZbs{}
+    \PY{n}{labs}\PY{p}{(}\PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Box Plot of Numeric Features}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Feature}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{o}{+} \PYZbs{}
+    \PY{n}{theme\PYZus{}minimal}\PY{p}{(}\PY{p}{)} \PY{o}{+} \PYZbs{}
+    \PY{n}{theme}\PY{p}{(}
+        \PY{n}{figure\PYZus{}size}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{,}  
+        \PY{n}{axis\PYZus{}text\PYZus{}x}\PY{o}{=}\PY{n}{element\PYZus{}text}\PY{p}{(}\PY{n}{rotation}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{hjust}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{)}\PY{p}{,}  \PY{c+c1}{\PYZsh{} Ensure horizontal x\PYZhy{}axis labels}
+        \PY{n}{plot\PYZus{}title}\PY{o}{=}\PY{n}{element\PYZus{}text}\PY{p}{(}\PY{n}{size}\PY{o}{=}\PY{l+m+mi}{14}\PY{p}{,} \PY{n}{weight}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bold}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,} 
+        \PY{n}{legend\PYZus{}position}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{none}\PY{l+s+s1}{\PYZsq{}}  
+    \PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{modeling-student-performance_files/modeling-student-performance_103_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{330}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{influence1} \PY{o}{=} \PY{n}{OLSInfluence}\PY{p}{(}\PY{n}{lasso\PYZus{}model\PYZus{}low}\PY{p}{)}
+\PY{n}{cooks\PYZus{}d1}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{influence1}\PY{o}{.}\PY{n}{cooks\PYZus{}distance}
+
+\PY{n}{cooks\PYZus{}distance\PYZus{}df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{\PYZob{}}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Observation Index}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{cooks\PYZus{}d1}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Cook}\PY{l+s+se}{\PYZbs{}\PYZsq{}}\PY{l+s+s1}{s Distance}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{cooks\PYZus{}d1}
+\PY{p}{\PYZcb{}}\PY{p}{)}
+
+\PY{n}{abs\PYZus{}residuals\PYZus{}low} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{lasso\PYZus{}model\PYZus{}low}\PY{o}{.}\PY{n}{resid}\PY{p}{)}
+
+\PY{n}{top\PYZus{}two\PYZus{}outliers\PYZus{}idx} \PY{o}{=} \PY{n}{abs\PYZus{}residuals\PYZus{}low}\PY{o}{.}\PY{n}{nlargest}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}\PY{o}{.}\PY{n}{index}
+\PY{n}{top\PYZus{}two\PYZus{}outliers} \PY{o}{=} \PY{n}{train\PYZus{}low}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{top\PYZus{}two\PYZus{}outliers\PYZus{}idx}\PY{p}{]}
+
+\PY{n}{cooks\PYZus{}plot} \PY{o}{=} \PY{p}{(}\PY{n}{ggplot}\PY{p}{(}\PY{n}{cooks\PYZus{}distance\PYZus{}df}\PY{p}{,} \PY{n}{aes}\PY{p}{(}\PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Observation Index}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Cook}\PY{l+s+se}{\PYZbs{}\PYZsq{}}\PY{l+s+s1}{s Distance}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)} \PY{o}{+}
+               \PY{n}{geom\PYZus{}point}\PY{p}{(}\PY{n}{color}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZsh{}838ceb}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.6}\PY{p}{)} \PY{o}{+}  \PY{c+c1}{\PYZsh{} Scatter plot for Cook\PYZsq{}s distance}
+               \PY{n}{geom\PYZus{}segment}\PY{p}{(}\PY{n}{aes}\PY{p}{(}\PY{n}{x}\PY{o}{=}\PY{n+nb}{min}\PY{p}{(}\PY{n}{cooks\PYZus{}distance\PYZus{}df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Observation Index}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,}
+                                \PY{n}{xend}\PY{o}{=}\PY{n+nb}{max}\PY{p}{(}\PY{n}{cooks\PYZus{}distance\PYZus{}df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Observation Index}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,}
+                                \PY{n}{y}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{,} \PY{n}{yend}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{)}\PY{p}{,}  \PY{c+c1}{\PYZsh{} Horizontal line at a threshold, set to 0.5}
+                            \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsh{}373f8a}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linetype}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dashed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{o}{+}  \PY{c+c1}{\PYZsh{} Add a threshold line (adjust the y value as needed)}
+               \PY{n}{labs}\PY{p}{(}\PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Cook}\PY{l+s+se}{\PYZbs{}\PYZsq{}}\PY{l+s+s1}{s Distance for Each Observation}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                    \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Observation Index}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                    \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Cook}\PY{l+s+se}{\PYZbs{}\PYZsq{}}\PY{l+s+s1}{s Distance}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{o}{+}
+               \PY{n}{scale\PYZus{}y\PYZus{}continuous}\PY{p}{(}\PY{n}{limits}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mf}{0.075}\PY{p}{)}\PY{p}{)} \PY{o}{+}  \PY{c+c1}{\PYZsh{} Set y\PYZhy{}axis limits from 0 to 1}
+               \PY{n}{theme\PYZus{}minimal}\PY{p}{(}\PY{p}{)} \PY{o}{+}  \PY{c+c1}{\PYZsh{} Clean theme}
+               \PY{n}{theme}\PY{p}{(}\PY{n}{axis\PYZus{}text\PYZus{}x}\PY{o}{=}\PY{n}{element\PYZus{}text}\PY{p}{(}\PY{n}{rotation}\PY{o}{=}\PY{l+m+mi}{90}\PY{p}{)}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Rotate x\PYZhy{}axis labels for better visibility}
+              \PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{cooks\PYZus{}plot}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/var/folders/bn/8l9zg4092yg1r262fl2zn9nw0000gn/T/ipykernel\_4079/3930044355.py:28
+: FutureWarning: Using print(plot) to draw and show the plot figure is
+deprecated and will be removed in a future version. Use plot.show().
+/opt/homebrew/anaconda3/lib/python3.12/site-packages/plotnine/layer.py:364:
+PlotnineWarning: geom\_segment : Removed 5064 rows containing missing values.
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{modeling-student-performance_files/modeling-student-performance_104_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{331}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{leverage2} \PY{o}{=} \PY{n}{influence}\PY{o}{.}\PY{n}{hat\PYZus{}matrix\PYZus{}diag}
+\PY{n}{student\PYZus{}resid2} \PY{o}{=} \PY{n}{influence}\PY{o}{.}\PY{n}{resid\PYZus{}studentized\PYZus{}internal}
+
+\PY{n}{leverage\PYZus{}df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{\PYZob{}}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Leverage}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{leverage2}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Studentized Residuals}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{student\PYZus{}resid2}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Outlier}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{[}\PY{k+kc}{False}\PY{p}{]} \PY{o}{*} \PY{n+nb}{len}\PY{p}{(}\PY{n}{leverage2}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Create a column to mark outliers}
+\PY{p}{\PYZcb{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Create the Leverage vs. Studentized Residuals plot using Plotnine}
+\PY{n}{leverage\PYZus{}plot} \PY{o}{=} \PY{p}{(}\PY{n}{ggplot}\PY{p}{(}\PY{n}{leverage\PYZus{}df}\PY{p}{,} \PY{n}{aes}\PY{p}{(}\PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Leverage}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Studentized Residuals}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)} \PY{o}{+}
+                 \PY{n}{geom\PYZus{}point}\PY{p}{(}\PY{n}{color}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZsh{}838ceb}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{)} \PY{o}{+}  \PY{c+c1}{\PYZsh{} Scatter plot with coloring for outliers}
+                 \PY{n}{geom\PYZus{}hline}\PY{p}{(}\PY{n}{yintercept}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsh{}373f8a}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linetype}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dashed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{o}{+}  \PY{c+c1}{\PYZsh{} Horizontal line at y=0}
+                 \PY{n}{labs}\PY{p}{(}\PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Leverage vs Studentized Residuals}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                      \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Leverage}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                      \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Studentized Residuals}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{o}{+}  \PY{c+c1}{\PYZsh{} Custom color for outliers}
+                 \PY{n}{theme\PYZus{}minimal}\PY{p}{(}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Clean theme}
+                \PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Display the leverage vs. studentized residuals plot}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{leverage\PYZus{}plot}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/var/folders/bn/8l9zg4092yg1r262fl2zn9nw0000gn/T/ipykernel\_4079/2111622971.py:21
+: FutureWarning: Using print(plot) to draw and show the plot figure is
+deprecated and will be removed in a future version. Use plot.show().
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{modeling-student-performance_files/modeling-student-performance_105_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{347}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{student\PYZus{}residuals\PYZus{}df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{\PYZob{}}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Observation Index}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{student\PYZus{}resid2}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Studentized Residuals}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{student\PYZus{}resid2}\PY{p}{)}
+\PY{p}{\PYZcb{}}\PY{p}{)}
+
+\PY{n}{student\PYZus{}residuals\PYZus{}plot} \PY{o}{=} \PY{p}{(}\PY{n}{ggplot}\PY{p}{(}\PY{n}{student\PYZus{}residuals\PYZus{}df}\PY{p}{,} \PY{n}{aes}\PY{p}{(}\PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Observation Index}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Studentized Residuals}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)} \PY{o}{+}
+                          \PY{n}{geom\PYZus{}segment}\PY{p}{(}\PY{n}{aes}\PY{p}{(}\PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Observation Index}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{xend}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Observation Index}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+                                           \PY{n}{y}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{yend}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Studentized Residuals}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,} 
+                                       \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsh{}373f8a}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{o}{+}  \PY{c+c1}{\PYZsh{} Vertical lines}
+                          \PY{n}{geom\PYZus{}point}\PY{p}{(}\PY{n}{color}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZsh{}838ceb}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{o}{+}  \PY{c+c1}{\PYZsh{} Points for the residuals}
+                          \PY{n}{labs}\PY{p}{(}\PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Studentized Residuals for Each Observation}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                               \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Observation Index}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                               \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Studentized Residuals}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{o}{+}
+                          \PY{n}{theme\PYZus{}minimal}\PY{p}{(}\PY{p}{)}  
+                         \PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{student\PYZus{}residuals\PYZus{}plot}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} print(f\PYZdq{}Studentized residual for row 5125: \PYZob{}student\PYZus{}resid2[5125]\PYZcb{}\PYZdq{})}
+\PY{c+c1}{\PYZsh{} print(f\PYZdq{}Studentized residual for row 2542: \PYZob{}student\PYZus{}resid2[2542]\PYZcb{}\PYZdq{})}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/var/folders/bn/8l9zg4092yg1r262fl2zn9nw0000gn/T/ipykernel\_4079/5376649.py:17:
+FutureWarning: Using print(plot) to draw and show the plot figure is deprecated
+and will be removed in a future version. Use plot.show().
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{modeling-student-performance_files/modeling-student-performance_106_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+    \end{Verbatim}
+
+    Even though these points are influential, they don't seem to be
+significantly impacting the data so we chose not to remove any of the
+data.
+
+    \subsection{Testing the Low Model:}\label{testing-the-low-model}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{333}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Adding a constant to the test set for the intercept term (if required by statsmodels)}
+\PY{n}{X\PYZus{}test} \PY{o}{=} \PY{n}{sm}\PY{o}{.}\PY{n}{add\PYZus{}constant}\PY{p}{(}\PY{n}{X\PYZus{}test\PYZus{}low}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Use your previously trained model to predict y\PYZus{}test}
+\PY{n}{y\PYZus{}pred} \PY{o}{=} \PY{n}{lasso\PYZus{}model\PYZus{}low}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Evaluate the model}
+\PY{n}{mse} \PY{o}{=} \PY{n}{mean\PYZus{}squared\PYZus{}error}\PY{p}{(}\PY{n}{y\PYZus{}test\PYZus{}low}\PY{p}{,} \PY{n}{y\PYZus{}pred}\PY{p}{)}
+\PY{n}{rmse} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{mse}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Root Mean Squared Error}
+\PY{n}{mae} \PY{o}{=} \PY{n}{mean\PYZus{}absolute\PYZus{}error}\PY{p}{(}\PY{n}{y\PYZus{}test\PYZus{}low}\PY{p}{,} \PY{n}{y\PYZus{}pred}\PY{p}{)}
+\PY{n}{r2} \PY{o}{=} \PY{n}{r2\PYZus{}score}\PY{p}{(}\PY{n}{y\PYZus{}test\PYZus{}low}\PY{p}{,} \PY{n}{y\PYZus{}pred}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Print the results}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{MSE: }\PY{l+s+si}{\PYZob{}}\PY{n}{mse}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RMSE: }\PY{l+s+si}{\PYZob{}}\PY{n}{rmse}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{MAE: }\PY{l+s+si}{\PYZob{}}\PY{n}{mae}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{R\PYZhy{}squared: }\PY{l+s+si}{\PYZob{}}\PY{n}{r2}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+MSE: 1.2658230069319085
+RMSE: 1.1250879996390988
+MAE: 0.8514178758116681
+R-squared: 0.8872329372713124
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{334}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Check if y\PYZus{}test\PYZus{}low and y\PYZus{}pred have data}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y\PYZus{}test\PYZus{}low shape: }\PY{l+s+si}{\PYZob{}}\PY{n+nb}{len}\PY{p}{(}\PY{n}{y\PYZus{}test\PYZus{}low}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{, y\PYZus{}pred shape: }\PY{l+s+si}{\PYZob{}}\PY{n+nb}{len}\PY{p}{(}\PY{n}{y\PYZus{}pred}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Create a DataFrame from y\PYZus{}test\PYZus{}low and y\PYZus{}pred}
+\PY{n}{results} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{\PYZob{}}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Actual}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{y\PYZus{}test\PYZus{}low}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Predicted}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{y\PYZus{}pred}
+\PY{p}{\PYZcb{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Create the scatter plot using Plotnine}
+\PY{n}{gg\PYZus{}plot} \PY{o}{=} \PY{p}{(}\PY{n}{ggplot}\PY{p}{(}\PY{n}{results}\PY{p}{,} \PY{n}{aes}\PY{p}{(}\PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Actual}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Predicted}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)} \PY{o}{+}
+            \PY{n}{geom\PYZus{}point}\PY{p}{(}\PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{n}{colors}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{purple}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)} \PY{o}{+}  \PY{c+c1}{\PYZsh{} Scatter plot of actual vs predicted}
+            \PY{n}{geom\PYZus{}abline}\PY{p}{(}\PY{n}{intercept}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{slope}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{n}{colors}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{l+m+mf}{1.5}\PY{p}{)} \PY{o}{+}  \PY{c+c1}{\PYZsh{} Line of perfect fit}
+            \PY{n}{labs}\PY{p}{(}
+                \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Actual Exam Score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Predicted Exam Score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                \PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Actual vs. Predicted Exam Scores}\PY{l+s+s1}{\PYZsq{}}
+            \PY{p}{)} \PY{o}{+}
+            \PY{n}{theme\PYZus{}minimal}\PY{p}{(}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Set figure size}
+           \PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Display the plot}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{gg\PYZus{}plot}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+y\_test\_low shape: 1266, y\_pred shape: 1266
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/var/folders/bn/8l9zg4092yg1r262fl2zn9nw0000gn/T/ipykernel\_4079/2972994973.py:23
+: FutureWarning: Using print(plot) to draw and show the plot figure is
+deprecated and will be removed in a future version. Use plot.show().
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{modeling-student-performance_files/modeling-student-performance_110_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+    \end{Verbatim}
+
+    We see that all of the residuals fall in line with the line of best fit.
+
+    \subsection{High Model:}\label{high-model}
+
+    The scores in the high model are those over 80.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{335}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{lasso\PYZus{}pipeline} \PY{o}{=} \PY{n}{Pipeline}\PY{p}{(}\PY{n}{steps}\PY{o}{=}\PY{p}{[}
+    \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{preprocessor}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{preprocessor\PYZus{}train\PYZus{}high}\PY{p}{)}\PY{p}{,}
+    \PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{lasso}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{Lasso}\PY{p}{(}\PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.1}\PY{p}{)}\PY{p}{)}  \PY{c+c1}{\PYZsh{} You can adjust alpha for regularization}
+\PY{p}{]}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Fit the model to the entire dataset}
+\PY{n}{lasso\PYZus{}pipeline}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train\PYZus{}high}\PY{p}{,} \PY{n}{y\PYZus{}train\PYZus{}high}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{335}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Pipeline(steps=[('preprocessor',
+                 ColumnTransformer(transformers=[('num', StandardScaler(),
+                                                  Index(['Hours\_Studied',
+'Attendance', 'Sleep\_Hours', 'Previous\_Scores',
+       'Tutoring\_Sessions', 'Physical\_Activity'],
+      dtype='object')),
+                                                 ('cat',
+                                                  OneHotEncoder(drop='first'),
+                                                  Index(['Access\_to\_Resources',
+'Extracurricular\_Activities', 'Motivation\_Level',
+       'Internet\_Access', 'Family\_Income', 'Teacher\_Quality', 'School\_Type',
+       'Learning\_Disabilities', 'Parental\_Education\_Level', 'Gender'],
+      dtype='object'))])),
+                ('lasso', Lasso(alpha=0.1))])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{336}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{encoded\PYZus{}categorical\PYZus{}names} \PY{o}{=} \PY{n}{lasso\PYZus{}pipeline}\PY{o}{.}\PY{n}{named\PYZus{}steps}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{preprocessor}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PYZbs{}
+    \PY{o}{.}\PY{n}{transformers\PYZus{}}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{get\PYZus{}feature\PYZus{}names\PYZus{}out}\PY{p}{(}\PY{n}{categorical\PYZus{}cols3}\PY{p}{)}
+
+\PY{n}{all\PYZus{}feature\PYZus{}names} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n}{numerical\PYZus{}cols3}\PY{p}{)} \PY{o}{+} \PY{n+nb}{list}\PY{p}{(}\PY{n}{encoded\PYZus{}categorical\PYZus{}names}\PY{p}{)}
+
+\PY{n}{lasso\PYZus{}coefficients} \PY{o}{=} \PY{n}{lasso\PYZus{}pipeline}\PY{o}{.}\PY{n}{named\PYZus{}steps}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{lasso}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{coef\PYZus{}}
+
+\PY{n}{selected\PYZus{}features} \PY{o}{=} \PY{p}{[}\PY{n}{name} \PY{k}{for} \PY{n}{name}\PY{p}{,} \PY{n}{coef} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{n}{all\PYZus{}feature\PYZus{}names}\PY{p}{,} \PY{n}{lasso\PYZus{}coefficients}\PY{p}{)} \PY{k}{if} \PY{n}{coef} \PY{o}{!=} \PY{l+m+mi}{0}\PY{p}{]}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Selected predictors: }\PY{l+s+si}{\PYZob{}}\PY{n}{selected\PYZus{}features}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Selected predictors: ['Hours\_Studied', 'Attendance', 'Sleep\_Hours',
+'Previous\_Scores', 'Tutoring\_Sessions', 'Access\_to\_Resources\_Low',
+'Access\_to\_Resources\_Medium', 'Internet\_Access\_Yes', 'Family\_Income\_Low',
+'Family\_Income\_Medium', 'Teacher\_Quality\_Low', 'Teacher\_Quality\_Medium',
+'School\_Type\_Public', 'Parental\_Education\_Level\_High School',
+'Parental\_Education\_Level\_Postgraduate', 'Gender\_Male']
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{350}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{x\PYZus{}lasso\PYZus{}train} \PY{o}{=} \PY{n}{X\PYZus{}train\PYZus{}high}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Extracurricular\PYZus{}Activities}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                                           \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Motivation\PYZus{}Level}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                                           \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Physical\PYZus{}Activity}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                                           \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Learning\PYZus{}Disabilities}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{y\PYZus{}lasso\PYZus{}train} \PY{o}{=} \PY{n}{y\PYZus{}train\PYZus{}high}
+\PY{n}{formula} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exam\PYZus{}Score \PYZti{} }\PY{l+s+s1}{\PYZsq{}} \PY{o}{+} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ + }\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{x\PYZus{}lasso\PYZus{}train}\PY{o}{.}\PY{n}{columns}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{351}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{lasso\PYZus{}model\PYZus{}high} \PY{o}{=} \PY{n}{smf}\PY{o}{.}\PY{n}{ols}\PY{p}{(}\PY{n}{formula}\PY{o}{=} \PY{n}{formula}\PY{p}{,} \PY{n}{data} \PY{o}{=} \PY{n}{train\PYZus{}high}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{p}{)}
+\PY{n}{lasso\PYZus{}model\PYZus{}high}\PY{o}{.}\PY{n}{summary}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+ 
+            
+\prompt{Out}{outcolor}{351}{}
+    
+    \begin{center}
+\begin{tabular}{lclc}
+\toprule
+\textbf{Dep. Variable:}                             &   Exam\_Score    & \textbf{  R-squared:         } &     0.817   \\
+\textbf{Model:}                                     &       OLS        & \textbf{  Adj. R-squared:    } &     0.677   \\
+\textbf{Method:}                                    &  Least Squares   & \textbf{  F-statistic:       } &     5.845   \\
+\textbf{Date:}                                      & Sat, 12 Oct 2024 & \textbf{  Prob (F-statistic):} &  0.000128   \\
+\textbf{Time:}                                      &     22:38:58     & \textbf{  Log-Likelihood:    } &   -93.933   \\
+\textbf{No. Observations:}                          &          38      & \textbf{  AIC:               } &     221.9   \\
+\textbf{Df Residuals:}                              &          21      & \textbf{  BIC:               } &     249.7   \\
+\textbf{Df Model:}                                  &          16      & \textbf{                     } &             \\
+\textbf{Covariance Type:}                           &    nonrobust     & \textbf{                     } &             \\
+\bottomrule
+\end{tabular}
+\begin{tabular}{lcccccc}
+                                                    & \textbf{coef} & \textbf{std err} & \textbf{t} & \textbf{P$> |$t$|$} & \textbf{[0.025} & \textbf{0.975]}  \\
+\midrule
+\textbf{Intercept}                                  &      61.3570  &        8.689     &     7.061  &         0.000        &       43.287    &       79.427     \\
+\textbf{Access\_to\_Resources[T.Low]}               &      -5.7833  &        2.147     &    -2.693  &         0.014        &      -10.249    &       -1.318     \\
+\textbf{Access\_to\_Resources[T.Medium]}            &       0.9025  &        2.073     &     0.435  &         0.668        &       -3.408    &        5.213     \\
+\textbf{Internet\_Access[T.Yes]}                    &       2.4094  &        2.284     &     1.055  &         0.303        &       -2.340    &        7.159     \\
+\textbf{Family\_Income[T.Low]}                      &      -1.2200  &        2.065     &    -0.591  &         0.561        &       -5.514    &        3.074     \\
+\textbf{Family\_Income[T.Medium]}                   &       1.2700  &        1.937     &     0.656  &         0.519        &       -2.758    &        5.298     \\
+\textbf{Teacher\_Quality[T.Low]}                    &      -3.5358  &        3.013     &    -1.174  &         0.254        &       -9.802    &        2.730     \\
+\textbf{Teacher\_Quality[T.Medium]}                 &      -0.6296  &        1.633     &    -0.386  &         0.704        &       -4.025    &        2.766     \\
+\textbf{School\_Type[T.Public]}                     &      -1.9864  &        2.269     &    -0.875  &         0.391        &       -6.705    &        2.732     \\
+\textbf{Parental\_Education\_Level[T.High School]}  &       1.7369  &        1.595     &     1.089  &         0.289        &       -1.581    &        5.055     \\
+\textbf{Parental\_Education\_Level[T.Postgraduate]} &       1.9619  &        2.174     &     0.902  &         0.377        &       -2.560    &        6.484     \\
+\textbf{Gender[T.Male]}                             &      -0.6569  &        1.600     &    -0.411  &         0.686        &       -3.984    &        2.671     \\
+\textbf{Hours\_Studied}                             &       0.1755  &        0.168     &     1.046  &         0.307        &       -0.173    &        0.524     \\
+\textbf{Attendance}                                 &       0.2455  &        0.078     &     3.162  &         0.005        &        0.084    &        0.407     \\
+\textbf{Sleep\_Hours}                               &      -0.6946  &        0.477     &    -1.456  &         0.160        &       -1.687    &        0.298     \\
+\textbf{Previous\_Scores}                           &       0.1439  &        0.048     &     3.009  &         0.007        &        0.044    &        0.243     \\
+\textbf{Tutoring\_Sessions}                         &      -0.3698  &        0.636     &    -0.581  &         0.567        &       -1.692    &        0.953     \\
+\bottomrule
+\end{tabular}
+\begin{tabular}{lclc}
+\textbf{Omnibus:}       &  1.452 & \textbf{  Durbin-Watson:     } &    1.866  \\
+\textbf{Prob(Omnibus):} &  0.484 & \textbf{  Jarque-Bera (JB):  } &    1.252  \\
+\textbf{Skew:}          &  0.429 & \textbf{  Prob(JB):          } &    0.535  \\
+\textbf{Kurtosis:}      &  2.765 & \textbf{  Cond. No.          } & 1.60e+03  \\
+\bottomrule
+\end{tabular}
+%\caption{OLS Regression Results}
+\end{center}
+
+Notes: \newline
+ [1] Standard Errors assume that the covariance matrix of the errors is correctly specified. \newline
+ [2] The condition number is large, 1.6e+03. This might indicate that there are \newline
+ strong multicollinearity or other numerical problems.
+
+    
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{352}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{\PYZob{}}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Fitted Values}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{lasso\PYZus{}model\PYZus{}high}\PY{o}{.}\PY{n}{fittedvalues}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Residuals}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{lasso\PYZus{}model\PYZus{}high}\PY{o}{.}\PY{n}{resid}
+\PY{p}{\PYZcb{}}\PY{p}{)}
+
+\PY{n}{gg} \PY{o}{=} \PY{p}{(}\PY{n}{ggplot}\PY{p}{(}\PY{n}{df}\PY{p}{,} \PY{n}{aes}\PY{p}{(}\PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Fitted Values}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Residuals}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)} \PY{o}{+}
+      \PY{n}{geom\PYZus{}point}\PY{p}{(}\PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{green}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.8}\PY{p}{)} \PY{o}{+}  \PY{c+c1}{\PYZsh{} Scatter plot}
+      \PY{n}{geom\PYZus{}hline}\PY{p}{(}\PY{n}{yintercept}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{linetype}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dashed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gray}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{o}{+}  \PY{c+c1}{\PYZsh{} Horizontal line at y=0}
+      \PY{n}{labs}\PY{p}{(}\PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Linearity Check: Fitted Values vs Residuals}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+           \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Fitted Values}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+           \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Residuals}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{o}{+}
+      \PY{n}{theme\PYZus{}minimal}\PY{p}{(}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Clean minimal theme}
+\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{gg}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/var/folders/bn/8l9zg4092yg1r262fl2zn9nw0000gn/T/ipykernel\_4079/2767330584.py:15
+: FutureWarning: Using print(plot) to draw and show the plot figure is
+deprecated and will be removed in a future version. Use plot.show().
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{modeling-student-performance_files/modeling-student-performance_118_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{353}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df\PYZus{}resid} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{\PYZob{}}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Residuals}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{lasso\PYZus{}model\PYZus{}high}\PY{o}{.}\PY{n}{resid}
+\PY{p}{\PYZcb{}}\PY{p}{)}
+
+\PY{n}{gg\PYZus{}qq} \PY{o}{=} \PY{p}{(}\PY{n}{ggplot}\PY{p}{(}\PY{n}{df\PYZus{}resid}\PY{p}{,} \PY{n}{aes}\PY{p}{(}\PY{n}{sample}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Residuals}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)} \PY{o}{+}
+         \PY{n}{stat\PYZus{}qq}\PY{p}{(}\PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{green}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.8}\PY{p}{)} \PY{o}{+}  \PY{c+c1}{\PYZsh{} Q\PYZhy{}Q points}
+         \PY{n}{stat\PYZus{}qq\PYZus{}line}\PY{p}{(}\PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{grey}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{o}{+}  \PY{c+c1}{\PYZsh{} Line representing normal distribution}
+         \PY{n}{labs}\PY{p}{(}\PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Normality Check: Q\PYZhy{}Q Plot of Residuals}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+              \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Theoretical Quantiles}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+              \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sample Quantiles}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{o}{+}
+         \PY{n}{theme\PYZus{}minimal}\PY{p}{(}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Clean minimal theme}
+\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{gg\PYZus{}qq}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/var/folders/bn/8l9zg4092yg1r262fl2zn9nw0000gn/T/ipykernel\_4079/3077312418.py:14
+: FutureWarning: Using print(plot) to draw and show the plot figure is
+deprecated and will be removed in a future version. Use plot.show().
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{modeling-student-performance_files/modeling-student-performance_119_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{354}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{predictors\PYZus{}to\PYZus{}drop} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Access\PYZus{}to\PYZus{}Resources}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Extracurricular\PYZus{}Activities}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+                       \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Family\PYZus{}Income}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Motivation\PYZus{}Level}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Parental\PYZus{}Education\PYZus{}Level}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+
+\PY{n}{train\PYZus{}high\PYZus{}long} \PY{o}{=} \PY{n}{train\PYZus{}high}\PY{o}{.}\PY{n}{melt}\PY{p}{(}\PY{n}{id\PYZus{}vars}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exam\PYZus{}Score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{value\PYZus{}vars}\PY{o}{=}\PY{n}{x\PYZus{}lasso\PYZus{}train}\PY{o}{.}\PY{n}{columns}\PY{p}{,} 
+                          \PY{n}{var\PYZus{}name}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Predictor}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{value\PYZus{}name}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{train\PYZus{}high\PYZus{}long\PYZus{}filtered} \PY{o}{=} \PY{n}{train\PYZus{}high\PYZus{}long}\PY{p}{[}\PY{o}{\PYZti{}}\PY{n}{train\PYZus{}high\PYZus{}long}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Predictor}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{isin}\PY{p}{(}\PY{n}{predictors\PYZus{}to\PYZus{}drop}\PY{p}{)}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{355}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{gg\PYZus{}scatter} \PY{o}{=} \PY{p}{(}\PY{n}{ggplot}\PY{p}{(}\PY{n}{train\PYZus{}high\PYZus{}long\PYZus{}filtered}\PY{p}{,} \PY{n}{aes}\PY{p}{(}\PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exam\PYZus{}Score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)} \PY{o}{+}
+              \PY{n}{geom\PYZus{}point}\PY{p}{(}\PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{green}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.6}\PY{p}{)} \PY{o}{+}  \PY{c+c1}{\PYZsh{} Scatter plot with some transparency}
+              \PY{n}{facet\PYZus{}wrap}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZti{}Predictor}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{nrow}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{scales}\PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{free}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{o}{+}  \PY{c+c1}{\PYZsh{} Create a grid layout with 2 rows}
+              \PY{n}{labs}\PY{p}{(}\PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Scatter Plots of Predictors vs. Exam Score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                   \PY{n}{x}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Predictor Value}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                   \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Exam Score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{o}{+}
+              \PY{n}{theme\PYZus{}minimal}\PY{p}{(}\PY{p}{)} \PY{o}{+}  \PY{c+c1}{\PYZsh{} Clean minimal theme}
+              \PY{n}{theme}\PY{p}{(}
+                  \PY{n}{axis\PYZus{}text\PYZus{}x}\PY{o}{=}\PY{n}{element\PYZus{}blank}\PY{p}{(}\PY{p}{)}\PY{p}{,}  
+                  \PY{n}{panel\PYZus{}grid\PYZus{}major}\PY{o}{=}\PY{n}{element\PYZus{}blank}\PY{p}{(}\PY{p}{)}\PY{p}{,}  
+                  \PY{n}{panel\PYZus{}grid\PYZus{}minor}\PY{o}{=}\PY{n}{element\PYZus{}blank}\PY{p}{(}\PY{p}{)}\PY{p}{,}  
+                  \PY{n}{subplots\PYZus{}adjust}\PY{o}{=}\PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{top}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mf}{0.9}\PY{p}{\PYZcb{}}\PY{p}{,}  
+                  \PY{n}{panel\PYZus{}spacing} \PY{o}{=} \PY{l+m+mf}{0.005}
+              \PY{p}{)}
+\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{gg\PYZus{}scatter}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/var/folders/bn/8l9zg4092yg1r262fl2zn9nw0000gn/T/ipykernel\_4079/1629869834.py:17
+: FutureWarning: Using print(plot) to draw and show the plot figure is
+deprecated and will be removed in a future version. Use plot.show().
+/opt/homebrew/anaconda3/lib/python3.12/site-
+packages/plotnine/themes/themeable.py:2419: FutureWarning: You no longer need to
+use subplots\_adjust to make space for the legend or text around the panels. This
+paramater will be removed in a future version. You can still use 'plot\_margin'
+'panel\_spacing' for your other spacing needs.
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{modeling-student-performance_files/modeling-student-performance_121_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{356}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{non\PYZus{}numeric\PYZus{}cols} \PY{o}{=} \PY{n}{x\PYZus{}lasso\PYZus{}train}\PY{o}{.}\PY{n}{select\PYZus{}dtypes}\PY{p}{(}\PY{n}{exclude}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{number}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{columns}
+
+\PY{n}{X\PYZus{}encoded} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{get\PYZus{}dummies}\PY{p}{(}\PY{n}{x\PYZus{}lasso\PYZus{}train}\PY{p}{,} \PY{n}{drop\PYZus{}first}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+\PY{n}{correlation\PYZus{}matrix} \PY{o}{=} \PY{n}{X\PYZus{}encoded}\PY{o}{.}\PY{n}{corr}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{,} \PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{Greens} \PY{o}{=} \PY{n}{sns}\PY{o}{.}\PY{n}{light\PYZus{}palette}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{green}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{as\PYZus{}cmap}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{sns}\PY{o}{.}\PY{n}{heatmap}\PY{p}{(}\PY{n}{correlation\PYZus{}matrix}\PY{p}{,} \PY{n}{annot}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{fmt}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{.2f}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{cmap}\PY{o}{=}\PY{n}{Greens}\PY{p}{,} \PY{n}{square}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{cbar}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Correlation Matrix Heatmap}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{modeling-student-performance_files/modeling-student-performance_122_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{357}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{X\PYZus{}test\PYZus{}2} \PY{o}{=} \PY{n}{sm}\PY{o}{.}\PY{n}{add\PYZus{}constant}\PY{p}{(}\PY{n}{X\PYZus{}test\PYZus{}high}\PY{p}{)}
+
+\PY{n}{y\PYZus{}pred} \PY{o}{=} \PY{n}{lasso\PYZus{}model\PYZus{}high}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test\PYZus{}2}\PY{p}{)}
+
+\PY{n}{mse} \PY{o}{=} \PY{n}{mean\PYZus{}squared\PYZus{}error}\PY{p}{(}\PY{n}{y\PYZus{}test\PYZus{}high}\PY{p}{,} \PY{n}{y\PYZus{}pred}\PY{p}{)}
+\PY{n}{rmse} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{mse}\PY{p}{)}  
+\PY{n}{mae} \PY{o}{=} \PY{n}{mean\PYZus{}absolute\PYZus{}error}\PY{p}{(}\PY{n}{y\PYZus{}test\PYZus{}high}\PY{p}{,} \PY{n}{y\PYZus{}pred}\PY{p}{)}
+\PY{n}{r2} \PY{o}{=} \PY{n}{r2\PYZus{}score}\PY{p}{(}\PY{n}{y\PYZus{}test\PYZus{}high}\PY{p}{,} \PY{n}{y\PYZus{}pred}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{MSE: }\PY{l+s+si}{\PYZob{}}\PY{n}{mse}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RMSE: }\PY{l+s+si}{\PYZob{}}\PY{n}{rmse}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{MAE: }\PY{l+s+si}{\PYZob{}}\PY{n}{mae}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{R\PYZhy{}squared: }\PY{l+s+si}{\PYZob{}}\PY{n}{r2}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+MSE: 40.244720366728785
+RMSE: 6.3438726631868
+MAE: 4.884048073870764
+R-squared: -0.799853325882325
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{358}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{y\PYZus{}test\PYZus{}high}\PY{p}{,} \PY{n}{y\PYZus{}pred}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{green}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Scatter plot of actual vs predicted}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{p}{[}\PY{n+nb}{min}\PY{p}{(}\PY{n}{y\PYZus{}test\PYZus{}high}\PY{p}{)}\PY{p}{,} \PY{n+nb}{max}\PY{p}{(}\PY{n}{y\PYZus{}test\PYZus{}high}\PY{p}{)}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{n+nb}{min}\PY{p}{(}\PY{n}{y\PYZus{}test\PYZus{}high}\PY{p}{)}\PY{p}{,} \PY{n+nb}{max}\PY{p}{(}\PY{n}{y\PYZus{}test\PYZus{}high}\PY{p}{)}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gray}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{lw}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Line of perfect fit}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Actual Exam Score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Predicted Exam Score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Actual vs. Predicted Exam Scores}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{modeling-student-performance_files/modeling-student-performance_124_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.7.18)  12 OCT 2024 18:27
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.7.18)  12 OCT 2024 23:37
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -269,32 +269,118 @@ Package: verbatim 2023-11-06 v1.5v LaTeX2e package for verbatim enhancements
 \every@verbatim=\toks26
 \verbatim@line=\toks27
 \verbatim@in@stream=\read2
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
+Package: fancyvrb 2024/01/20 4.5c verbatim text (tvz,hv)
+\FV@CodeLineNo=\count296
+\FV@InFile=\read3
+\FV@TabBox=\box54
+\c@FancyVerbLine=\count297
+\FV@StepNumber=\count298
+\FV@OutFile=\write3
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/booktabs/booktabs.sty
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen168
+\lightrulewidth=\dimen169
+\cmidrulewidth=\dimen170
+\belowrulesep=\dimen171
+\belowbottomsep=\dimen172
+\aboverulesep=\dimen173
+\abovetopsep=\dimen174
+\cmidrulesep=\dimen175
+\cmidrulekern=\dimen176
+\defaultaddspace=\dimen177
+\@cmidla=\count299
+\@cmidlb=\count300
+\@aboverulesep=\dimen178
+\@belowrulesep=\dimen179
+\@thisruleclass=\count301
+\@lastruleclass=\count302
+\@thisrulewidth=\dimen180
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2023/08/05 v3.6o Customizing captions (AR)
+ (/usr/local/texlive/2024/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
+\caption@tempdima=\dimen181
+\captionmargin=\dimen182
+\caption@leftmargin=\dimen183
+\caption@rightmargin=\dimen184
+\caption@width=\dimen185
+\caption@indent=\dimen186
+\caption@parindent=\dimen187
+\caption@hangindent=\dimen188
+Package caption Info: Standard document class detected.
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 26.
-LaTeX Font Info:    Trying to load font information for OT1+bch on input line 83.
+\c@caption@flags=\count303
+\c@continuedfloat=\count304
+Package caption Info: hyperref package is loaded.
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/caption/subcaption.sty
+Package: subcaption 2023/07/28 v1.6b Sub-captions (AR)
+Package caption Info: New subtype `subfigure' on input line 238.
+\c@subfigure=\count305
+Package caption Info: New subtype `subtable' on input line 238.
+\c@subtable=\count306
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/tools/array.sty
+Package: array 2023/10/16 v2.5g Tabular extension package (FMi)
+\col@sep=\dimen189
+\ar@mcellbox=\box55
+\extrarowheight=\dimen190
+\NC@list=\toks28
+\extratabsurround=\skip57
+\backup@length=\skip58
+\ar@cellbox=\box56
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count307
+\float@exts=\toks29
+\float@box=\box57
+\@float@everytoks=\toks30
+\@floatcapt=\box58
+) (/usr/local/texlive/2024/texmf-dist/tex/generic/ulem/ulem.sty
+\UL@box=\box59
+\UL@hyphenbox=\box60
+\UL@skip=\skip59
+\UL@hook=\toks31
+\UL@height=\dimen191
+\UL@pe=\count308
+\UL@pixel=\dimen192
+\ULC@box=\box61
+Package: ulem 2019/11/18
+\ULdepth=\dimen193
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/psnfss/pifont.sty
+Package: pifont 2020/03/25 PSNFSS-v9.3 Pi font support (SPQR) 
+LaTeX Font Info:    Trying to load font information for U+pzd on input line 63.
+ (/usr/local/texlive/2024/texmf-dist/tex/latex/psnfss/upzd.fd
+File: upzd.fd 2001/06/04 font definitions for U/pzd.
+)
+LaTeX Font Info:    Trying to load font information for U+psy on input line 64.
+ (/usr/local/texlive/2024/texmf-dist/tex/latex/psnfss/upsy.fd
+File: upsy.fd 2001/06/04 font definitions for U/psy.
+))
+Package hyperref Info: Option `colorlinks' set `true' on input line 38.
+LaTeX Font Info:    Trying to load font information for OT1+bch on input line 95.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/psnfss/ot1bch.fd
 File: ot1bch.fd 2004/10/18 font definitions for OT1/bch.
 ) (output/modeling-student-performance-paper.aux)
 \openout1 = `modeling-student-performance-paper.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 83.
-LaTeX Font Info:    ... okay on input line 83.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 83.
-LaTeX Font Info:    ... okay on input line 83.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 83.
-LaTeX Font Info:    ... okay on input line 83.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 83.
-LaTeX Font Info:    ... okay on input line 83.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 83.
-LaTeX Font Info:    ... okay on input line 83.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 83.
-LaTeX Font Info:    ... okay on input line 83.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 83.
-LaTeX Font Info:    ... okay on input line 83.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 83.
-LaTeX Font Info:    ... okay on input line 83.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 83.
-LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 95.
+LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 95.
+LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 95.
+LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 95.
+LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 95.
+LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 95.
+LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 95.
+LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 95.
+LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 95.
+LaTeX Font Info:    ... okay on input line 95.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -332,17 +418,17 @@ LaTeX Font Info:    ... okay on input line 83.
 
 (/usr/local/texlive/2024/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count296
-\scratchdimen=\dimen168
-\scratchbox=\box54
-\nofMPsegments=\count297
-\nofMParguments=\count298
-\everyMPshowfont=\toks28
-\MPscratchCnt=\count299
-\MPscratchDim=\dimen169
-\MPnumerator=\count300
-\makeMPintoPDFobject=\count301
-\everyMPtoPDFconversion=\toks29
+\scratchcounter=\count309
+\scratchdimen=\dimen194
+\scratchbox=\box62
+\nofMPsegments=\count310
+\nofMParguments=\count311
+\everyMPshowfont=\toks32
+\MPscratchCnt=\count312
+\MPscratchDim=\dimen195
+\MPnumerator=\count313
+\makeMPintoPDFobject=\count314
+\everyMPtoPDFconversion=\toks33
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
@@ -355,86 +441,24 @@ File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package color Info: Driver file: pdftex.def on input line 149.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/graphics/mathcolor.ltx))
-Package hyperref Info: Link coloring ON on input line 83.
+Package hyperref Info: Link coloring ON on input line 95.
  (output/modeling-student-performance-paper.out) (output/modeling-student-performance-paper.out)
-\@outlinefile=\write3
-\openout3 = `modeling-student-performance-paper.out'.
+\@outlinefile=\write4
+\openout4 = `modeling-student-performance-paper.out'.
 
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: float package is loaded.
+Package caption Info: End \AtBeginDocument code.
 
 
 LaTeX Font Warning: Font shape `T1/cmr/b/n' in size <40> not available
-(Font)              size <35.83> substituted on input line 103.
+(Font)              size <35.83> substituted on input line 117.
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 103--103
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 103--103
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 103--103
-
- []
-
-
-Underfull \hbox (badness 1776) in paragraph at lines 110--124
-[]\OT1/bch/m/n/10 The ``Stu-dent Per-for-mance Fac-tors'' dataset con-tains
- []
-
-
-Underfull \hbox (badness 1259) in paragraph at lines 110--124
-\OT1/bch/m/n/10 It is de-signed to help re-searchers an-a-lyze the po-ten-
- []
-
-
-Underfull \hbox (badness 2080) in paragraph at lines 110--124
-\OT1/bch/m/n/10 tial im-pact of these fac-tors on stu-dent per-for-mance.
- []
-
-
-Underfull \hbox (badness 1803) in paragraph at lines 110--124
-\OT1/bch/m/n/10 The dataset in-cludes in-for-ma-tion such as study time
- []
-
-
-Underfull \hbox (badness 1845) in paragraph at lines 110--124
-\OT1/bch/m/n/10 (\OT1/cmtt/m/n/10 Access[]to[]Resources\OT1/bch/m/n/10 ), and par-tic-i-pa-tion in ex-tracur-
- []
-
-
-Underfull \hbox (badness 1430) in paragraph at lines 110--124
-\OT1/bch/m/n/10 ric-u-lar ac-tiv-i-ties (\OT1/cmtt/m/n/10 Extracurricular[]Activities\OT1/bch/m/n/10 ). Ad-
- []
-
-
-Underfull \hbox (badness 6792) in paragraph at lines 110--124
-\OT1/bch/m/n/10 di-tion-ally, it cov-ers so-cioe-co-nomic and back-ground
- []
-
-
-Underfull \hbox (badness 5245) in paragraph at lines 110--124
-\OT1/bch/m/n/10 data such as fam-ily in-come (\OT1/cmtt/m/n/10 Family[]Income\OT1/bch/m/n/10 ), mo-
- []
-
-
-Underfull \hbox (badness 6825) in paragraph at lines 110--124
-\OT1/bch/m/n/10 ti-va-tion level (\OT1/cmtt/m/n/10 Motivation[]Level\OT1/bch/m/n/10 ), tu-tor-ing ses-sions
- []
-
-
-Underfull \hbox (badness 6775) in paragraph at lines 110--124
-\OT1/bch/m/n/10 hours (\OT1/cmtt/m/n/10 Sleep[]Hours\OT1/bch/m/n/10 ), and parental ed-u-ca-tion level
- []
-
-LaTeX Font Info:    Trying to load font information for TS1+bch on input line 134.
+LaTeX Font Info:    Trying to load font information for TS1+bch on input line 139.
 (/usr/local/texlive/2024/texmf-dist/tex/latex/psnfss/ts1bch.fd
 File: ts1bch.fd 2004/10/18 font definitions for TS1/bch.
 )
-Underfull \hbox (badness 1412) in paragraph at lines 153--155
+Underfull \hbox (badness 1412) in paragraph at lines 158--160
 []\OT1/cmtt/m/n/10 Parental[]Involvement\OT1/bch/m/n/10 : Par-ent in-volve-ment (Low,
  []
 
@@ -442,85 +466,206 @@ Underfull \hbox (badness 1412) in paragraph at lines 153--155
 
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 238--239
+Underfull \hbox (badness 10000) in paragraph at lines 241--242
 []\OT1/bch/m/n/10 We made con-fu-sion ta-bles to check
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 238--239
+Underfull \hbox (badness 10000) in paragraph at lines 241--242
 \OT1/cmtt/m/n/10 Parental[]Involvment \OT1/bch/m/n/10 against \OT1/cmtt/m/n/10 Access[]to[]Resources
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 238--239
+Underfull \hbox (badness 10000) in paragraph at lines 241--242
 \OT1/bch/m/n/10 (Sup-ple-men-tary Ta-ble [][]1[][]), \OT1/cmtt/m/n/10 Family[]Income \OT1/bch/m/n/10 against
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 238--239
+Underfull \hbox (badness 10000) in paragraph at lines 241--242
 \OT1/cmtt/m/n/10 Peer[]Influence \OT1/bch/m/n/10 (Sup-ple-men-tary Ta-ble [][]2[][]),
  []
 
 
-Underfull \hbox (badness 6236) in paragraph at lines 238--239
+Underfull \hbox (badness 6236) in paragraph at lines 241--242
 \OT1/cmtt/m/n/10 Distance[]from[]Home \OT1/bch/m/n/10 against \OT1/cmtt/m/n/10 Motivation[]Level \OT1/bch/m/n/10 (Sup-
  []
 
 
-Underfull \hbox (badness 1874) in paragraph at lines 238--239
+Underfull \hbox (badness 1874) in paragraph at lines 241--242
 \OT1/bch/m/n/10 ple-men-tary Ta-ble [][]3[][]) and \OT1/cmtt/m/n/10 Distance[]from[]Home \OT1/bch/m/n/10 against
  []
 
-<./images/4-correlation-heatmap.png, id=59, 727.0362pt x 573.8238pt>
+<./images/4-correlation-heatmap.png, id=66, 727.0362pt x 573.8238pt>
 File: ./images/4-correlation-heatmap.png Graphic file (type png)
 <use ./images/4-correlation-heatmap.png>
-Package pdftex.def Info: ./images/4-correlation-heatmap.png  used on input line 258.
-(pdftex.def)             Requested size: 334.90541pt x 264.3299pt.
+Package pdftex.def Info: ./images/4-correlation-heatmap.png  used on input line 261.
+(pdftex.def)             Requested size: 472.71088pt x 373.09488pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [2]
-Underfull \hbox (badness 1184) in paragraph at lines 291--294
+Underfull \hbox (badness 1184) in paragraph at lines 294--297
 []\OT1/bch/m/n/10 We also have spe-cific ques-tions about our dif-fer-ent
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 291--294
+Underfull \hbox (badness 10000) in paragraph at lines 294--297
 
  []
 
-[3 <./images/4-correlation-heatmap.png>] [4]
-<./images/1-barplots.png, id=91, 1293.633pt x 1295.43974pt>
+[3 <./images/4-correlation-heatmap.png>]
+<./images/5-actual-vs-predicted-scores.png, id=90, 506.25134pt x 401.45985pt>
+File: ./images/5-actual-vs-predicted-scores.png Graphic file (type png)
+<use ./images/5-actual-vs-predicted-scores.png>
+Package pdftex.def Info: ./images/5-actual-vs-predicted-scores.png  used on input line 337.
+(pdftex.def)             Requested size: 257.61894pt x 204.2885pt.
+<./images/6-influence-plot.png, id=92, 620.7993pt x 458.9145pt>
+File: ./images/6-influence-plot.png Graphic file (type png)
+<use ./images/6-influence-plot.png>
+Package pdftex.def Info: ./images/6-influence-plot.png  used on input line 348.
+(pdftex.def)             Requested size: 257.61894pt x 190.43896pt.
+<./images/7-residual-plot.png, id=95, 613.93365pt x 401.45985pt>
+File: ./images/7-residual-plot.png Graphic file (type png)
+<use ./images/7-residual-plot.png>
+Package pdftex.def Info: ./images/7-residual-plot.png  used on input line 357.
+(pdftex.def)             Requested size: 257.61894pt x 168.46497pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [4 <./images/5-actual-vs-predicted-scores.png> <./images/6-influence-plot.png> <./images/7-residual-plot.png>]
+<./images/8-linearity-check.png, id=116, 462.528pt x 346.896pt>
+File: ./images/8-linearity-check.png Graphic file (type png)
+<use ./images/8-linearity-check.png>
+Package pdftex.def Info: ./images/8-linearity-check.png  used on input line 410.
+(pdftex.def)             Requested size: 231.85547pt x 173.8922pt.
+<./images/9-residual-qq-plot.png, id=118, 462.528pt x 346.896pt>
+File: ./images/9-residual-qq-plot.png Graphic file (type png)
+<use ./images/9-residual-qq-plot.png>
+Package pdftex.def Info: ./images/9-residual-qq-plot.png  used on input line 418.
+(pdftex.def)             Requested size: 231.85547pt x 173.8922pt.
+ [5 <./images/8-linearity-check.png> <./images/9-residual-qq-plot.png>]
+<./images/17-observed-vs-fitted.png, id=138, 462.528pt x 346.896pt>
+File: ./images/17-observed-vs-fitted.png Graphic file (type png)
+<use ./images/17-observed-vs-fitted.png>
+Package pdftex.def Info: ./images/17-observed-vs-fitted.png  used on input line 450.
+(pdftex.def)             Requested size: 257.61894pt x 193.22296pt.
+<./images/18-linearity-check.png, id=141, 462.528pt x 346.896pt>
+File: ./images/18-linearity-check.png Graphic file (type png)
+<use ./images/18-linearity-check.png>
+Package pdftex.def Info: ./images/18-linearity-check.png  used on input line 479.
+(pdftex.def)             Requested size: 257.61894pt x 193.22296pt.
+<./images/19-qq-plot.png, id=143, 462.528pt x 346.896pt>
+File: ./images/19-qq-plot.png Graphic file (type png)
+<use ./images/19-qq-plot.png>
+Package pdftex.def Info: ./images/19-qq-plot.png  used on input line 487.
+(pdftex.def)             Requested size: 257.61894pt x 193.22296pt.
+ [6 <./images/17-observed-vs-fitted.png> <./images/18-linearity-check.png> <./images/19-qq-plot.png>]
+
+LaTeX Warning: Reference `22:observed-vs-fitted' on page 7 undefined on input line 494.
+
+<./images/22-observed-vs-fitted.png, id=161, 621.522pt x 401.45985pt>
+File: ./images/22-observed-vs-fitted.png Graphic file (type png)
+<use ./images/22-observed-vs-fitted.png>
+Package pdftex.def Info: ./images/22-observed-vs-fitted.png  used on input line 497.
+(pdftex.def)             Requested size: 257.61894pt x 166.4067pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 2521) in paragraph at lines 546--547
+[]\OT1/bch/m/n/10 Predictors like hours stud-ied, at-ten-dance, pre-vi-ous
+ []
+
+
+Underfull \hbox (badness 1057) in paragraph at lines 567--568
+\OT1/bch/m/n/10 pre-dic-tors be-ing hours stud-ied, at-ten-dance, prior aca-
+ []
+
+[7 <./images/22-observed-vs-fitted.png>] [8
+
+]
+<./images/1-barplots.png, id=181, 1293.633pt x 1295.43974pt>
 File: ./images/1-barplots.png Graphic file (type png)
 <use ./images/1-barplots.png>
-Package pdftex.def Info: ./images/1-barplots.png  used on input line 362.
+Package pdftex.def Info: ./images/1-barplots.png  used on input line 586.
 (pdftex.def)             Requested size: 472.71088pt x 473.35541pt.
-
-pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.363 ... category for our categorical variables.}
-                                                   [5
+ [9
 
  <./images/1-barplots.png>]
-<./images/2-boxplots.png, id=98, 1004.553pt x 1004.91435pt>
+<./images/2-boxplots.png, id=188, 1004.553pt x 1004.91435pt>
 File: ./images/2-boxplots.png Graphic file (type png)
 <use ./images/2-boxplots.png>
-Package pdftex.def Info: ./images/2-boxplots.png  used on input line 415.
+Package pdftex.def Info: ./images/2-boxplots.png  used on input line 639.
 (pdftex.def)             Requested size: 472.71088pt x 472.87715pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<./images/3-pairwise-plot.png, id=99, 1243.40535pt x 1243.40535pt>
+<./images/3-pairwise-plot.png, id=189, 1243.40535pt x 1243.40535pt>
 File: ./images/3-pairwise-plot.png Graphic file (type png)
 <use ./images/3-pairwise-plot.png>
-Package pdftex.def Info: ./images/3-pairwise-plot.png  used on input line 422.
+Package pdftex.def Info: ./images/3-pairwise-plot.png  used on input line 646.
 (pdftex.def)             Requested size: 472.71088pt x 472.70764pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[6] [7 <./images/2-boxplots.png>] [8 <./images/3-pairwise-plot.png>] (output/modeling-student-performance-paper.aux)
+
+Package subcaption Warning: `subtable' is treated as `subfigure'
+(subcaption)                 on input line 733.
+
+
+Package subcaption Warning: `subtable' is treated as `subfigure'
+(subcaption)                 on input line 755.
+
+
+Package subcaption Warning: `subtable' is treated as `subfigure'
+(subcaption)                 on input line 784.
+
+<./images/10-predictors-vs-exam-score.png, id=190, 462.528pt x 346.896pt>
+File: ./images/10-predictors-vs-exam-score.png Graphic file (type png)
+<use ./images/10-predictors-vs-exam-score.png>
+Package pdftex.def Info: ./images/10-predictors-vs-exam-score.png  used on input line 803.
+(pdftex.def)             Requested size: 525.23788pt x 393.94638pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<./images/11-corr-heatmap.png, id=191, 752.69205pt x 633.0852pt>
+File: ./images/11-corr-heatmap.png Graphic file (type png)
+<use ./images/11-corr-heatmap.png>
+Package pdftex.def Info: ./images/11-corr-heatmap.png  used on input line 810.
+(pdftex.def)             Requested size: 525.23788pt x 441.77524pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Package subcaption Warning: `subtable' is treated as `subfigure'
+(subcaption)                 on input line 819.
+
+
+Package subcaption Warning: `subtable' is treated as `subfigure'
+(subcaption)                 on input line 841.
+
+
+Package subcaption Warning: `subtable' is treated as `subfigure'
+(subcaption)                 on input line 872.
+
+<./images/20-predictors-scatterplot.png, id=192, 462.528pt x 346.896pt>
+File: ./images/20-predictors-scatterplot.png Graphic file (type png)
+<use ./images/20-predictors-scatterplot.png>
+Package pdftex.def Info: ./images/20-predictors-scatterplot.png  used on input line 891.
+(pdftex.def)             Requested size: 525.23788pt x 393.94638pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<./images/21-corr-heatmap.png, id=193, 753.0534pt x 684.03555pt>
+File: ./images/21-corr-heatmap.png Graphic file (type png)
+<use ./images/21-corr-heatmap.png>
+Package pdftex.def Info: ./images/21-corr-heatmap.png  used on input line 898.
+(pdftex.def)             Requested size: 525.23788pt x 477.13075pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[10] [11 <./images/2-boxplots.png>] [12 <./images/3-pairwise-plot.png>] [13] [14] [15] [16 <./images/10-predictors-vs-exam-score.png>] [17 <./images/11-corr-heatmap.png>] [18] [19 <./images/20-predictors-scatterplot.png>] [20 <./images/21-corr-heatmap.png>] (output/modeling-student-performance-paper.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
@@ -530,22 +675,25 @@ L3 programming layer <2024-02-20>
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 4.17pt have occurred.
 
+
+LaTeX Warning: There were undefined references.
+
 Package rerunfilecheck Info: File `modeling-student-performance-paper.out' has not changed.
-(rerunfilecheck)             Checksum: C2FFFF64119743A7E12B0B9BBAB75D2B;891.
+(rerunfilecheck)             Checksum: 293F231687FF158DACBF1D5A008EF1B0;1073.
  ) 
 Here is how much of TeX's memory you used:
- 10417 strings out of 474116
- 166275 string characters out of 5743682
- 1947187 words of memory out of 5000000
- 32597 multiletter control sequences out of 15000+600000
- 574591 words of font info for 58 fonts, out of 8000000 for 9000
+ 12789 strings out of 474116
+ 211421 string characters out of 5743682
+ 1971187 words of memory out of 5000000
+ 34887 multiletter control sequences out of 15000+600000
+ 578799 words of font info for 70 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 79i,8n,93p,636b,515s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2024/texmf-dist/fonts/type1/bitstrea/charter/bchb8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/bitstrea/charter/bchr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/bitstrea/charter/bchri8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfrb3583.pfb>
-Output written on output/modeling-student-performance-paper.pdf (8 pages, 1458200 bytes).
+ 79i,11n,93p,1040b,535s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2024/texmf-dist/fonts/type1/bitstrea/charter/bchb8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/bitstrea/charter/bchr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/bitstrea/charter/bchri8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfrb3583.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/zapfding/uzdr.pfb>
+Output written on output/modeling-student-performance-paper.pdf (20 pages, 3501156 bytes).
 PDF statistics:
- 162 PDF objects out of 1000 (max. 8388607)
- 126 compressed objects within 2 object streams
- 35 named destinations out of 1000 (max. 500000)
- 85 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 333 PDF objects out of 1000 (max. 8388607)
+ 242 compressed objects within 3 object streams
+ 71 named destinations out of 1000 (max. 500000)
+ 158 words of extra memory for PDF output out of 10000 (max. 10000000)
 
