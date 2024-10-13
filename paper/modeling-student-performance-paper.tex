@@ -124,7 +124,7 @@ The \href{https://www.kaggle.com/datasets/lainguyn123/student-performance-factor
 
 This dataset includes information about the different habits a student has, like hours studied, attendance, extracurricular activities, physical activity, or the amount of hours they sleep
 
-We also have information about the student's environment including parental involvment, peer influence, school type, or teacher quality.
+We also have information about the student's environment including Parental Involvement, peer influence, school type, or teacher quality.
 
 Moreover, we have information about the student themselves, like their gender, whether or not they have a learning disability, their motivation level, how many tutoring sessions they attend, their previous scores and their exam scores.
 
@@ -339,7 +339,7 @@ We can see how plotting our predicted scores vs. the observed exam scores (Figur
   \label{5:actual-vs-predicted}
 \end{figure}
 
-At this point, we considered wether the observations that are very far from our line are influential points. An influence plot (Figure \ref{6:influence-plot}) shows us how there are just too many of these observations that fit the criteria to be considered an influential point (leverage higher than 3 times the mean leverage, statistically significant externally studentized residuals or Cook's distance higher than $\frac{4}{n}$, $n$ being the sample size).
+At this point, we considered whether the observations that are very far from our line are influential points. An influence plot (Figure \ref{6:influence-plot}) shows us how there are just too many of these observations that fit the criteria to be considered an influential point (leverage higher than 3 times the mean leverage, statistically significant externally studentized residuals or Cook's distance higher than $\frac{4}{n}$, $n$ being the sample size).
 
 We cannot simply treat these as outliers and remove them. We seem to not be considering that there are two distinct groups of students that should have different models.
 
@@ -532,7 +532,7 @@ It is interesting to note which predictors ended up in each model (Table \ref{ta
   Teacher Quality                     & \ding{55} & \ding{51} \\
   Internet Access                     & \ding{55} & \ding{51} \\
   Gender                              & \ding{55} & \ding{51} \\
-  % st{Parental Involvment}             & \ding{55} & \ding{55} \\
+  % st{Parental Involvement}             & \ding{55} & \ding{55} \\
   % st{Peer Influence}                  & \ding{55} & \ding{55} \\
   % st{Distance from Home}              & \ding{55} & \ding{55} \\
   \hline
@@ -543,7 +543,7 @@ It is interesting to note which predictors ended up in each model (Table \ref{ta
 
 This selection can already answer some of our research questions. We can see how Learning Disabilities was not picked out for any of the models, indicating that it does not affect a student's performance.
 
-Predictors like hours studied, attendance, previous scores, tutoring sessions, access to resources, family income and parental education level have an impact for both of our models. We can go ahead and call these factors the ones that have the most sifnificant impact in a student's performance.
+Predictors like hours studied, attendance, previous scores, tutoring sessions, access to resources, family income and parental education level have an impact for both of our models. We can go ahead and call these factors the ones that have the most significant impact in a student's performance.
 
 We see positive coefficients for hours studied and attendance, indicating that the more hours a student studies and the more they attend lessons, the higher they'll score on their exams.
 

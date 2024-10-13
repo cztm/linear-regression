@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1728801445.71346 "/Users/emmajuansalazar/Documents/fall-mod-1/linear-regression/group-project/linear-regression/paper/modeling-student-performance-paper.tex" "output/modeling-student-performance-paper.pdf" "modeling-student-performance-paper" 1728801453.96616 0
-  "/Users/emmajuansalazar/Documents/fall-mod-1/linear-regression/group-project/linear-regression/paper/modeling-student-performance-paper.tex" 1728801445.45986 53033 2b2d97f4da09d2da66fe4128fe185cb5 ""
+["pdflatex"] 1728802654.02375 "/Users/emmajuansalazar/Documents/fall-mod-1/linear-regression/group-project/linear-regression/paper/modeling-student-performance-paper.tex" "output/modeling-student-performance-paper.pdf" "modeling-student-performance-paper" 1728802659.37325 0
+  "/Users/emmajuansalazar/Documents/fall-mod-1/linear-regression/group-project/linear-regression/paper/modeling-student-performance-paper.tex" 1728802653.57003 53036 59a4b5af30f5d3871cdd2fb2337e5454 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -138,9 +138,9 @@
   "images/7-residual-plot.png" 1728771772.03181 195528 bf780f20a83b8ec177adfb285b97dbc0 ""
   "images/8-linearity-check.png" 1728771793.02132 102677 40d069b869117cfd1413b93c1c1ffa01 ""
   "images/9-residual-qq-plot.png" 1728771813.99297 50593 23198d4e0950bff2b25521a212be1dd3 ""
-  "modeling-student-performance-paper.tex" 1728801445.45986 53033 2b2d97f4da09d2da66fe4128fe185cb5 ""
-  "output/modeling-student-performance-paper.aux" 1728801453.71091 10186 3a4550e2c1f5c5a28e6bd7069bba9900 "pdflatex"
-  "output/modeling-student-performance-paper.out" 1728801453.7133 1073 293f231687ff158dacbf1d5a008ef1b0 "pdflatex"
+  "modeling-student-performance-paper.tex" 1728802653.57003 53036 59a4b5af30f5d3871cdd2fb2337e5454 ""
+  "output/modeling-student-performance-paper.aux" 1728802659.22266 10186 3a4550e2c1f5c5a28e6bd7069bba9900 "pdflatex"
+  "output/modeling-student-performance-paper.out" 1728802659.22502 1073 293f231687ff158dacbf1d5a008ef1b0 "pdflatex"
   (generated)
   "output/modeling-student-performance-paper.aux"
   "output/modeling-student-performance-paper.log"
